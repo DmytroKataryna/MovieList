@@ -28,72 +28,15 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 //fragment which contains upcoming movie list
-public class UpcomingFragmentTab extends Fragment implements AdapterView.OnItemClickListener {
+public class UpcomingFragmentTab extends AbstractFragmentTab {
 
-    private static int currentPage = 1;
-
-    List<Movie> upcomingMovies = new ArrayList<>();
-    ListView listView;
-    ProgressBar progressBar;
-    BaseAdapter adapter;
-    View view;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-
-        loadData(currentPage);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.tab_layout, container, false);
-            progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-            adapter = new MovieAdapter(getActivity(), upcomingMovies);
-
-            listView = (ListView) view.findViewById(R.id.listView);
-            listView.setOnItemClickListener(this);
-            listView.setAdapter(adapter);
-            //implements custom AbsListView.OnScrollListener
-            listView.setOnScrollListener(new EndlessScrollListener() {
-                //load just first four pages
-                @Override
-                protected boolean hasMoreDataToLoad() {
-                    return currentPage < 4;
-                }
-
-                @Override
-                protected void loadMoreData(int page) {
-                    currentPage = page;
-                    loadData(currentPage);
-                }
-            });
-        } else {
-            // If we are returning from a configuration change:
-            // "view" is still attached to the previous view hierarchy
-            // so we need to remove it and re-attach it to the current one
-            ViewGroup parent = (ViewGroup) view.getParent();
-            parent.removeView(view);
-        }
-        return view;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(getActivity(), DetailActivity.class)
-                .putExtra("KEY", upcomingMovies.get(position).getId());
-        startActivity(i);
-
-    }
 
     public void loadData(int page) {
         RestClient.get().getUpcomingMovies(page, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
                 //get movies list , and add it to array
-                upcomingMovies.addAll(movieResponse.getMovies());
+                movieList.addAll(movieResponse.getMovies());
                 progressBar.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 adapter.notifyDataSetChanged();
