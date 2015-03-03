@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:padding="1dp">
+
+        <ImageView
+            android:id="@+id/thumbImage"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_help"
+            android:paddingRight="2dp"
+            android:contentDescription="@string/menuHelper"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="42dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="6dp"
+                    android:text="@string/titleName"
+                    android:id="@+id/titleMovie"
+                    android:textColor="#FFA726" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="28dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:paddingTop="2dp"
+                    android:src="@android:drawable/star_big_off"
+                    android:id="@+id/starImageView"
+                    android:contentDescription="@string/starDescription"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="4dp"
+                    android:paddingLeft="2sp"
+                    android:text="@string/avg"
+                    android:id="@+id/voteAvgView" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:paddingTop="4dp"
+                    android:paddingLeft="2sp"
+                    android:text="@string/voteCnt"
+                    android:id="@+id/voteCntView" />
+
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="23dp"
+                    android:paddingTop="5dp"
+                    android:src="@android:drawable/presence_away"
+                    android:id="@+id/dateImageView"
+                    android:layout_weight="0.73"
+                    android:contentDescription="@string/presence" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:paddingTop="4dp"
+                    android:text="@string/date"
+                    android:id="@+id/dateView" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
