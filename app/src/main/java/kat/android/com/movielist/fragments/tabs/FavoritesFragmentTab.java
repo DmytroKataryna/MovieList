@@ -18,12 +18,11 @@ import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
-import kat.android.com.movielist.common.EndlessScrollListener;
 import kat.android.com.movielist.common.MovieAdapter;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
-import kat.android.com.movielist.rest.pojo.Movie;
-import kat.android.com.movielist.rest.pojo.MovieResponse;
+import kat.android.com.movielist.rest.pojo.movie.Movie;
+import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

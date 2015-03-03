@@ -1,7 +1,6 @@
 package kat.android.com.movielist.fragments;
 
 import android.app.Fragment;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -20,10 +19,11 @@ import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
-import kat.android.com.movielist.rest.pojo.Favorite;
-import kat.android.com.movielist.rest.pojo.userdatails.AccountState;
-import kat.android.com.movielist.rest.pojo.userdatails.Status;
+import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
+import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -34,12 +34,13 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     private int id;
     private boolean favorite;
+    private boolean watchList;
     private ImageView mImage;
     private MovieDetails data;
     private TextView mTitle, mGenres, mRelease, mRuntime, mBudget;
     private TextView mAvgRate, mCount, mDescription, mHomePage;
     private PreferencesUtils utils;
-    private Button addButt;
+    private Button mFavoriteButt, mWatchListButt;
 
 
     @Override
@@ -49,9 +50,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         id = getArguments().getInt(DetailActivity.ID_KEY);
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getActivity());
-        //get detail info about current movie
-        loadMovieInformation();
-
     }
 
     @Nullable
@@ -70,12 +68,21 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mDescription = (TextView) v.findViewById(R.id.detailsDescriptionView);
         mHomePage = (TextView) v.findViewById(R.id.detailsHomePageView);
 
-        addButt = (Button) v.findViewById(R.id.addFav);
-        addButt.setOnClickListener(this);
+        mFavoriteButt = (Button) v.findViewById(R.id.addFav);
+        mFavoriteButt.setOnClickListener(this);
+
+        mWatchListButt = (Button) v.findViewById(R.id.addWatch);
+        mWatchListButt.setOnClickListener(this);
 
         return v;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //get detail info about current movie
+        loadMovieInformation();
+    }
 
     private void loadMovieInformation() {
 
@@ -97,7 +104,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                     mHomePage.setText(Html.fromHtml("<font color=#FB8C00>Homepage :</font>" + (" <br/>") + data.getHomepage()));
                 }
 
-                //check if this movies belongs to favorite list and change CheckBox
+                //check if this movies belongs to favorite/watchlist  and change button background img
                 loadMovieFavoriteInformation();
             }
 
@@ -114,11 +121,17 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
             @Override
             public void success(AccountState accountState, Response response) {
+                Toast.makeText(getActivity(), "WatchList " + accountState.isWatchlist(), Toast.LENGTH_SHORT).show();
                 favorite = accountState.isFavorite();
+                watchList = accountState.isWatchlist();
                 if (favorite)
-                    addButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
                 else
-                    addButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+                if (watchList)
+                    mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_orange);
+                else
+                    mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_gray);
             }
 
             @Override
@@ -127,7 +140,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             }
         });
     }
-
 
     //Movie may contains a lot of genres. I get just three of them
     private String getGenres() {
@@ -141,6 +153,66 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         builder.deleteCharAt(builder.lastIndexOf(", "));
         return builder.toString();
     }
+
+
+    //change movie favorite state
+    private void movieFavoritesChange(boolean state) {
+        RestClient.get().addMovieToFavorites(utils.getSessionUserID(), utils.getSessionID(), new Favorite("movie", id, state), new Callback<Status>() {
+            @Override
+            public void success(Status status, Response response) {
+                Log.d(DetailActivity.TAG, "Favorites " + status.getStatus_message());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(DetailActivity.TAG, "An error occurred while adding movie to  favorites.");
+            }
+        });
+    }
+
+    //change movie watchlist state
+    private void movieWatchListChange(boolean state) {
+        RestClient.get().addMovieToWatchList(utils.getSessionUserID(), utils.getSessionID(), new WatchList("movie", id, state), new Callback<Status>() {
+            @Override
+            public void success(Status status, Response response) {
+                Log.d(DetailActivity.TAG, "WatchList " + status.getStatus_message());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(DetailActivity.TAG, "An error occurred while adding movie to  watchList.");
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.addFav:
+                if (favorite) {
+                    movieFavoritesChange(false);
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+                    favorite = !favorite;
+                } else {
+                    movieFavoritesChange(true);
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
+                    favorite = !favorite;
+                }
+                break;
+            case R.id.addWatch:
+                if (watchList) {
+                    movieWatchListChange(false);
+                    mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_gray);
+                    watchList = !watchList;
+                } else {
+                    movieWatchListChange(true);
+                    mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_orange);
+                    watchList = !watchList;
+                }
+                break;
+        }
+    }
+
 
 //    private void movieFavoritesChange(boolean state) {
 //        RestClient.get().addMovieToFavorites(utils.getSessionUserID(), utils.getSessionID(), createMap(state), new Callback<Status>() {
@@ -170,31 +242,4 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 //            }
 //        });
 //    }
-
-    private void movieFavoritesChange(boolean state) {
-        RestClient.get().addMovieToFavorites(utils.getSessionUserID(), utils.getSessionID(), new Favorite("movie", id, state), new Callback<Status>() {
-            @Override
-            public void success(Status status, Response response) {
-                Log.d(DetailActivity.TAG, "Favorites " + status.getStatus_message());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d(DetailActivity.TAG, "An error occurred while adding movie to  favorites.");
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (favorite) {
-            movieFavoritesChange(false);
-            addButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
-            favorite = !favorite;
-        } else {
-            movieFavoritesChange(true);
-            addButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
-            favorite = !favorite;
-        }
-    }
 }

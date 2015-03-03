@@ -1,14 +1,15 @@
 package kat.android.com.movielist.rest;
 
 
-import kat.android.com.movielist.rest.pojo.Favorite;
+import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
-import kat.android.com.movielist.rest.pojo.userdatails.AccountState;
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.Session;
-import kat.android.com.movielist.rest.pojo.userdatails.Status;
+import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
 import kat.android.com.movielist.rest.pojo.userdatails.Token;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
-import kat.android.com.movielist.rest.pojo.MovieResponse;
+import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
+import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -63,6 +64,42 @@ public interface API {
     void getAccount(@Query("session_id") String session,
                     Callback<Account> callback);
 
+
+    //Check if current film is added to favorite list
+    @GET("/movie/{id}/account_states" + API_KEY)
+    void getAccount_states(@Path("id") int movie_id,
+                           @Query("session_id") String session,
+                           Callback<AccountState> callback);
+
+    //get all favorite movies
+    @GET("/account/{id}/favorite/movies" + API_KEY)
+    void getFavoritesMovies(@Path("id") int id,
+                            @Query("session_id") String session,
+                            @Query("page") int page,
+                            Callback<MovieResponse> callback);
+
+    //get all watchlist movies
+    @GET("/account/{id}/watchlist/movies" + API_KEY)
+    void getWatchListMovies(@Path("id") int id,
+                            @Query("session_id") String session,
+                            @Query("page") int page,
+                            Callback<MovieResponse> callback);
+
+    //add/remove from favorite
+    @POST("/account/{id}/favorite" + API_KEY)
+    void addMovieToFavorites(@Path("id") int id,
+                             @Query("session_id") String session,
+                             @Body Favorite favorite,
+                             Callback<Status> callback);
+
+    //add/remove from watchlist
+    @POST("/account/{id}/watchlist" + API_KEY)
+    void addMovieToWatchList(@Path("id") int id,
+                             @Query("session_id") String session,
+                             @Body WatchList watchList,
+                             Callback<Status> callback);
+
+
     //add/remove from favorite
 //    @POST("/account/{id}/favorite" + API_KEY)
 //    void addMovieToFavorites(@Path("id") int id,
@@ -79,23 +116,4 @@ public interface API {
 //                             @Field("favorite") Boolean favorite,
 //                             Callback<Status> callback);
 
-    //add/remove from favorite
-    @POST("/account/{id}/favorite" + API_KEY)
-    void addMovieToFavorites(@Path("id") int id,
-                             @Query("session_id") String session,
-                             @Body Favorite favorite,
-                             Callback<Status> callback);
-
-    //get all favorite movies
-    @GET("/account/{id}/favorite/movies" + API_KEY)
-    void getFavoritesMovies(@Path("id") int id,
-                            @Query("session_id") String session,
-                            @Query("page") int page,
-                            Callback<MovieResponse> callback);
-
-    //Check if current film is added to favorite list
-    @GET("/movie/{id}/account_states" + API_KEY)
-    void getAccount_states(@Path("id") int movie_id,
-                           @Query("session_id") String session,
-                           Callback<AccountState> callback);
 }

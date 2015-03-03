@@ -136,11 +136,22 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="22dp"
+                android:layout_marginEnd="22dp"
                 android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/addWatch"
+                android:layout_toStartOf="@+id/addWatch" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addWatch"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="21dp"
-                android:layout_marginEnd="21dp" />
+                android:layout_marginRight="22dp"
+                android:layout_marginEnd="22dp" />
 
         </RelativeLayout>
 

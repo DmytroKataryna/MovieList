@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import kat.android.com.movielist.R;
-import kat.android.com.movielist.rest.pojo.Movie;
+import kat.android.com.movielist.rest.pojo.movie.Movie;
 
 //custom adapter
 public class MovieAdapter extends BaseAdapter {

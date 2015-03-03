@@ -11,11 +11,12 @@ import kat.android.com.movielist.fragments.tabs.PopularFragmentTab;
 import kat.android.com.movielist.fragments.tabs.SearchFragmentTab;
 import kat.android.com.movielist.fragments.tabs.TopRatedFragmentTab;
 import kat.android.com.movielist.fragments.tabs.UpcomingFragmentTab;
+import kat.android.com.movielist.fragments.tabs.WatchListFragmentTab;
 
 
 public class TabsActivity extends ActionBarActivity {
 
-    ActionBar.Tab popularTab, upcomingTab, topRatedTab, searchTab, favoritesTab;
+    ActionBar.Tab popularTab, upcomingTab, topRatedTab, searchTab, favoritesTab, watchListTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,16 @@ public class TabsActivity extends ActionBarActivity {
                 .setText("Favorites")
                 .setTabListener(new TabListener(FavoritesFragmentTab.class, getApplicationContext()));
 
+        watchListTab = actionBar.newTab()
+                .setText("WatchList")
+                .setTabListener(new TabListener(WatchListFragmentTab.class, getApplicationContext()));
+
         actionBar.addTab(popularTab);
         actionBar.addTab(upcomingTab);
         actionBar.addTab(topRatedTab);
         actionBar.addTab(favoritesTab);
+        actionBar.addTab(watchListTab);
         actionBar.addTab(searchTab);
+
     }
 }

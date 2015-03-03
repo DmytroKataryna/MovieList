@@ -1,5 +1,6 @@
 package kat.android.com.movielist.fragments.tabs;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
-import kat.android.com.movielist.common.EndlessScrollListener;
-import kat.android.com.movielist.common.MovieAdapter;
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.common.MovieAdapter;
+import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.Movie;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
@@ -27,12 +28,12 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-//fragment which contains popular movie list
-public class PopularFragmentTab extends Fragment implements AdapterView.OnItemClickListener {
+public class WatchListFragmentTab extends Fragment implements AdapterView.OnItemClickListener {
 
     private static int currentPage = 1;
+    private PreferencesUtils utils;
 
-    List<Movie> popularMovies = new ArrayList<>();
+    List<Movie> watchListMovies = new ArrayList<>();
     ListView listView;
     ProgressBar progressBar;
     BaseAdapter adapter;
@@ -42,7 +43,14 @@ public class PopularFragmentTab extends Fragment implements AdapterView.OnItemCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        //utils class which stores user data (login , session , name)
+        utils = PreferencesUtils.get(getActivity());
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //load user favorite movie list
         loadData(currentPage);
     }
 
@@ -51,25 +59,11 @@ public class PopularFragmentTab extends Fragment implements AdapterView.OnItemCl
         if (view == null) {
             view = inflater.inflate(R.layout.tab_layout, container, false);
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-            adapter = new MovieAdapter(getActivity(), popularMovies);
+            adapter = new MovieAdapter(getActivity(), watchListMovies);
 
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
             listView.setAdapter(adapter);
-            //implements custom AbsListView.OnScrollListener
-            listView.setOnScrollListener(new EndlessScrollListener() {
-                //load just first four pages
-                @Override
-                protected boolean hasMoreDataToLoad() {
-                    return currentPage < 4;
-                }
-
-                @Override
-                protected void loadMoreData(int page) {
-                    currentPage = page;
-                    loadData(currentPage);
-                }
-            });
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
@@ -83,16 +77,17 @@ public class PopularFragmentTab extends Fragment implements AdapterView.OnItemCl
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(getActivity(), DetailActivity.class)
-                .putExtra("KEY", popularMovies.get(position).getId());
+                .putExtra("KEY", watchListMovies.get(position).getId());
         startActivity(i);
     }
 
+    //load first page of favorite movies
     public void loadData(int page) {
-        RestClient.get().getPopularMovies(page, new Callback<MovieResponse>() {
+        RestClient.get().getWatchListMovies(utils.getSessionUserID(), utils.getSessionID(), 1, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
-                //get movies list , and add it to array
-                popularMovies.addAll(movieResponse.getMovies());
+                watchListMovies.clear();
+                watchListMovies.addAll(movieResponse.getMovies());
                 progressBar.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 adapter.notifyDataSetChanged();
@@ -100,7 +95,7 @@ public class PopularFragmentTab extends Fragment implements AdapterView.OnItemCl
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d(DetailActivity.TAG, "An error occurred while downloading popular movies list.");
+                Log.d(DetailActivity.TAG, "An error occurred while downloading favorites movies list.");
             }
         });
     }
