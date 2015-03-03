@@ -2,17 +2,19 @@ package kat.android.com.movielist.rest.pojo.userdatails.accountstate;
 
 import com.google.gson.annotations.SerializedName;
 
-//Using GSON to convert json to java object
-public class Rated {
+import java.io.Serializable;
+
+public class Rated implements Serializable {
 
     @SerializedName("value")
-    private int value;
+    private float value;
 
-    public int getValue() {
+
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(float value) {
         this.value = value;
     }
 }

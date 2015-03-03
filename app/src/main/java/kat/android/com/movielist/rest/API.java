@@ -1,10 +1,12 @@
 package kat.android.com.movielist.rest;
 
 
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.Session;
+import kat.android.com.movielist.rest.pojo.userdatails.post.Rating;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
 import kat.android.com.movielist.rest.pojo.userdatails.Token;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
@@ -45,31 +47,38 @@ public interface API {
     @GET("/movie/{id}" + API_KEY)
     void getMovie(@Path("id") int id,
                   Callback<MovieDetails> callback);
-
+    //token
     @GET("/authentication/token/new" + API_KEY)
     void getToken(Callback<Token> callback);
 
-    //https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=API_KEY&request_token=REQUEST_TOKEN&username=###&password=###
+    //login (receive token)
     @GET("/authentication/token/validate_with_login" + API_KEY)
     void getAuthentication(@Query("request_token") String request_token,
                            @Query("username") String username,
                            @Query("password") String password,
                            Callback<Token> callback);
-
+    //receive session id
     @GET("/authentication/session/new" + API_KEY)
     void getSession(@Query("request_token") String request_token,
                     Callback<Session> callback);
 
+    //get account information
     @GET("/account" + API_KEY)
     void getAccount(@Query("session_id") String session,
                     Callback<Account> callback);
 
 
-    //Check if current film is added to favorite list
+    //Check if current film is added to favorite/watchlist and movie rating
     @GET("/movie/{id}/account_states" + API_KEY)
-    void getAccount_states(@Path("id") int movie_id,
-                           @Query("session_id") String session,
-                           Callback<AccountState> callback);
+    void getAccountStates(@Path("id") int movie_id,
+                          @Query("session_id") String session,
+                          Callback<AccountState> callback);
+
+    //Check if current film is added to favorite/watchlist
+    @GET("/movie/{id}/account_states" + API_KEY)
+    void getAccountStatesWithoutRate(@Path("id") int movie_id,
+                                     @Query("session_id") String session,
+                                     Callback<AccountStateWithoutRate> callback);
 
     //get all favorite movies
     @GET("/account/{id}/favorite/movies" + API_KEY)
@@ -98,6 +107,13 @@ public interface API {
                              @Query("session_id") String session,
                              @Body WatchList watchList,
                              Callback<Status> callback);
+
+    //user rate the movie
+    @POST("/movie/{id}/rating" + API_KEY)
+    void addMovieRating(@Path("id") int id,
+                        @Query("session_id") String session,
+                        @Body Rating rating,
+                        Callback<Status> callback);
 
 
     //add/remove from favorite

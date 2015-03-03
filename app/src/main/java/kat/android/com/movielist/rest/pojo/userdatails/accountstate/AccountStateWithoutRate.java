@@ -2,11 +2,8 @@ package kat.android.com.movielist.rest.pojo.userdatails.accountstate;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.List;
-
 //Using GSON to convert json to java object
-public class AccountState implements Serializable {
+public class AccountStateWithoutRate {
 
     @SerializedName("id")
     private int id;
@@ -16,25 +13,6 @@ public class AccountState implements Serializable {
 
     @SerializedName("watchlist")
     private boolean watchlist;
-
-    @SerializedName("rated")
-    private Rated rated;
-
-    public Rated getRated() {
-        return rated;
-    }
-
-    public void setRated(Rated rated) {
-        this.rated = rated;
-    }
-
-    public boolean isWatchlist() {
-        return watchlist;
-    }
-
-    public void setWatchlist(boolean watchlist) {
-        this.watchlist = watchlist;
-    }
 
     public int getId() {
         return id;
@@ -50,5 +28,13 @@ public class AccountState implements Serializable {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    public boolean isWatchlist() {
+        return watchlist;
+    }
+
+    public void setWatchlist(boolean watchlist) {
+        this.watchlist = watchlist;
     }
 }
