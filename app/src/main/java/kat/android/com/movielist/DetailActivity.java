@@ -17,19 +17,19 @@ public class DetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tabs);
 
         //receiving movie id from intent , and send it to fragment ( by adding it to bundle)
         Bundle bundle = new Bundle();
         bundle.putInt(ID_KEY, getIntent().getIntExtra("KEY", 0));
 
         FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.activity_main);
+        Fragment fragment = fm.findFragmentById(R.id.activity_tabs);
 
         if (fragment == null) {
             fragment = new MovieDetailsFragment();
             fragment.setArguments(bundle);
-            fm.beginTransaction().add(R.id.activity_main, fragment).commit();
+            fm.beginTransaction().add(R.id.activity_tabs, fragment).commit();
         }
     }
 }

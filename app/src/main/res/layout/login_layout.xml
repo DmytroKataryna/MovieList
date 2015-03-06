@@ -36,4 +36,5 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_holo_light_orange"
         android:text="Login" />
+
 </LinearLayout>

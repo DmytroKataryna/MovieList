@@ -42,7 +42,6 @@ public class WatchListFragmentTab extends Fragment implements AdapterView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getActivity());
     }

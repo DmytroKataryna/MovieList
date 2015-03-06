@@ -34,8 +34,8 @@ import retrofit.client.Response;
 //Detailed profile information
 public class MovieDetailsFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
 
-
     private int id;
+    // private boolean guest;
     private boolean favorite;
     private boolean watchList;
     private float rating;
@@ -55,6 +55,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         id = getArguments().getInt(DetailActivity.ID_KEY);
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getActivity());
+        //guest = utils.isGuest();
     }
 
     @Nullable
@@ -72,6 +73,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mCount = (TextView) v.findViewById(R.id.countView);
         mDescription = (TextView) v.findViewById(R.id.detailsDescriptionView);
         mHomePage = (TextView) v.findViewById(R.id.detailsHomePageView);
+        //mHomePage.setClickable(true);
 
         mFavoriteButt = (Button) v.findViewById(R.id.addFav);
         mFavoriteButt.setOnClickListener(this);
@@ -81,6 +83,12 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
         mRatingBar = (RatingBar) v.findViewById(R.id.ratingBar);
         mRatingBar.setOnRatingBarChangeListener(this);
+
+        if (utils.isGuest()) {
+            mFavoriteButt.setVisibility(View.GONE);
+            mWatchListButt.setVisibility(View.GONE);
+            mRatingBar.setVisibility(View.GONE);
+        }
 
         return v;
     }
@@ -92,6 +100,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         loadMovieInformation();
     }
 
+    //get detail info about current movie
     private void loadMovieInformation() {
 
         RestClient.get().getMovie(id, new Callback<MovieDetails>() {
@@ -112,7 +121,9 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                     mHomePage.setText(Html.fromHtml("<font color=#FB8C00>Homepage :</font>" + (" <br/>") + data.getHomepage()));
                 }
 
-                loadMovieAccountStateInformation();
+                //if guest session -> didn't upload favorite/rating/watchlist info
+                if (!utils.isGuest())
+                    loadMovieAccountStateInformation();
             }
 
             @Override
@@ -132,7 +143,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 watchList = accountState.isWatchlist();
                 rating = accountState.getRated().getValue();
                 mRatingBar.setRating(rating);
-                //int rate = also get rating and set value to ratingBar
+
                 if (favorite)
                     mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
                 else
@@ -147,7 +158,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             public void failure(RetrofitError error) {
                 //if movie isn't rated, then load just favorite and watchlist info
                 loadMovieAccountStateInformationWithoutRating();
-
                 Log.d(DetailActivity.TAG, "Account States failed");
             }
         });
@@ -272,32 +282,4 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     }
 
 }
-//    private void movieFavoritesChange(boolean state) {
-//        RestClient.get().addMovieToFavorites(utils.getSessionUserID(), utils.getSessionID(), createMap(state), new Callback<Status>() {
-//            @Override
-//            public void success(Status status, Response response) {
-//                Toast.makeText(getActivity(), "Favorites " + status.getStatus_message(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(DetailActivity.TAG, "An error occurred while adding movie to  favorites.");
-//            }
-//        });
-//    }
-
-
-//    private void movieFavoritesChange(boolean state) {
-//        RestClient.get().addMovieToFavorites(utils.getSessionUserID(), utils.getSessionID(), "movie", id, state, new Callback<Status>() {
-//            @Override
-//            public void success(Status status, Response response) {
-//                Toast.makeText(getActivity(), "Favorites " + status.getStatus_message(), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(DetailActivity.TAG, "An error occurred while adding movie to  favorites.");
-//            }
-//        });
-//    }
 

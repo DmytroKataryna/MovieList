@@ -35,9 +35,14 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-
+        //setRetainInstance(true);
         loadData(currentPage);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //loadData(currentPage);
     }
 
     @Override
@@ -50,6 +55,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
             listView.setAdapter(adapter);
+
             //implements custom AbsListView.OnScrollListener
             listView.setOnScrollListener(new EndlessScrollListener() {
                 //load just first four pages

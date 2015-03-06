@@ -3,6 +3,7 @@ package kat.android.com.movielist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
+import kat.android.com.movielist.rest.pojo.userdatails.GuestSession;
 import kat.android.com.movielist.rest.pojo.userdatails.Session;
 import kat.android.com.movielist.rest.pojo.userdatails.Token;
 import retrofit.Callback;
@@ -18,7 +20,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements View.OnClickListener {
 
     private EditText mLoginEditText, mPassEditText;
     private Button mSend;
@@ -31,24 +33,68 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getApplicationContext());
 
         mLoginEditText = (EditText) findViewById(R.id.loginText);
         mPassEditText = (EditText) findViewById(R.id.passText);
         mSend = (Button) findViewById(R.id.loginButton);
+        mSend.setOnClickListener(this);
+    }
 
-        mSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
+    }
+
+    private void checkSession() {
+
+        if (utils.getGuestSessionID() == null & utils.getSessionID() == null) {
+            utils.setGuest(false);
+            getGuestLogin();
+
+        } else if (utils.getGuestSessionID() != null & utils.getSessionID() == null) {
+            utils.setGuest(true);
+            startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        } else if (utils.getSessionID() != null) {
+            utils.setGuest(false);
+            startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginButton:
                 mLogin = mLoginEditText.getText().toString();
                 mPassword = mPassEditText.getText().toString();
                 //start a chain requests
                 getLogin();
+                break;
+        }
+    }
+    //******************************************************************************************
+
+    private void getGuestLogin() {
+        RestClient.get().getGuestSession(new Callback<GuestSession>() {
+            @Override
+            public void success(GuestSession guestSession, Response response) {
+                utils.storeGuestSessionUser(guestSession.getGuest_session_id());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("TAGATAGA", "Guest Fail");
             }
         });
-
     }
+
+    //******************************************************************************************
+
 
     //token
     private void getLogin() {
@@ -104,7 +150,10 @@ public class LoginActivity extends Activity {
             @Override
             public void success(Account account, Response response) {
                 utils.storeSessionUser(account.getId(), account.getUsername(), mSession_ID);
-                startActivity(new Intent(getApplicationContext(), TabsActivity.class));
+
+                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
             }
 
             @Override

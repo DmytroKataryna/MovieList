@@ -26,5 +26,7 @@
     <string name="homepage">Homepage</string>
     <string name="titleName">TITLE TITLE</string>
     <string name="menuHelper">ic menu helper</string>
+    <string name="login">login</string>
+    <string name="search">search</string>
 
 </resources>

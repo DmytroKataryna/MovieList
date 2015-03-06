@@ -1,6 +1,7 @@
 package kat.android.com.movielist.rest;
 
 
+import kat.android.com.movielist.rest.pojo.userdatails.GuestSession;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
@@ -47,6 +48,7 @@ public interface API {
     @GET("/movie/{id}" + API_KEY)
     void getMovie(@Path("id") int id,
                   Callback<MovieDetails> callback);
+
     //token
     @GET("/authentication/token/new" + API_KEY)
     void getToken(Callback<Token> callback);
@@ -57,6 +59,7 @@ public interface API {
                            @Query("username") String username,
                            @Query("password") String password,
                            Callback<Token> callback);
+
     //receive session id
     @GET("/authentication/session/new" + API_KEY)
     void getSession(@Query("request_token") String request_token,
@@ -114,6 +117,9 @@ public interface API {
                         @Query("session_id") String session,
                         @Body Rating rating,
                         Callback<Status> callback);
+
+    @GET("/authentication/guest_session/new" + API_KEY)
+    void getGuestSession(Callback<GuestSession> callback);
 
 
     //add/remove from favorite

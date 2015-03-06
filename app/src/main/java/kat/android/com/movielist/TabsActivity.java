@@ -1,64 +1,116 @@
 package kat.android.com.movielist;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import kat.android.com.movielist.common.TabListener;
-import kat.android.com.movielist.fragments.tabs.FavoritesFragmentTab;
-import kat.android.com.movielist.fragments.tabs.PopularFragmentTab;
+
+import kat.android.com.movielist.common.PreferencesUtils;
+import kat.android.com.movielist.fragments.TabsContainerFragment;
 import kat.android.com.movielist.fragments.tabs.SearchFragmentTab;
-import kat.android.com.movielist.fragments.tabs.TopRatedFragmentTab;
-import kat.android.com.movielist.fragments.tabs.UpcomingFragmentTab;
-import kat.android.com.movielist.fragments.tabs.WatchListFragmentTab;
 
+//Activity which responsible for placing TabsFragments or SearchFragment
+public class TabsActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener {
 
-public class TabsActivity extends ActionBarActivity {
+    private PreferencesUtils utils;
 
-    ActionBar.Tab popularTab, upcomingTab, topRatedTab, searchTab, favoritesTab, watchListTab;
+    private Fragment fragment;
+    private FragmentManager fm;
+
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_tabs);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
+        utils = PreferencesUtils.get(getApplicationContext());
+        fm = getSupportFragmentManager();
+        fragment = fm.findFragmentById(R.id.activity_tabs);
 
-        // Screen handling while hiding Actionbar title.
-        actionBar.setDisplayShowTitleEnabled(false);
+        if (fragment == null) {
+            fragment = new TabsContainerFragment();
+            fm.beginTransaction()
+                    .add(R.id.activity_tabs, fragment)
+                    .commit();
+        }
+    }
 
-        // Creating ActionBar tabs.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    //
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_tabs, menu);
 
-        popularTab = actionBar.newTab()
-                .setText("Popular")
-                .setTabListener(new TabListener(PopularFragmentTab.class, getApplicationContext()));
-        upcomingTab = actionBar.newTab()
-                .setText("Upcoming")
-                .setTabListener(new TabListener(UpcomingFragmentTab.class, getApplicationContext()));
-        topRatedTab = actionBar.newTab()
-                .setText("Top Rated")
-                .setTabListener(new TabListener(TopRatedFragmentTab.class, getApplicationContext()));
-        searchTab = actionBar.newTab()
-                .setText("Search")
-                .setTabListener(new TabListener(SearchFragmentTab.class, getApplicationContext()));
+        //menu item text change depending on session user
+        if (utils.isGuest())
+            menu.getItem(1).setTitle("login");
+        else
+            menu.getItem(1).setTitle("logout");
 
-        favoritesTab = actionBar.newTab()
-                .setText("Favorites")
-                .setTabListener(new TabListener(FavoritesFragmentTab.class, getApplicationContext()));
 
-        watchListTab = actionBar.newTab()
-                .setText("WatchList")
-                .setTabListener(new TabListener(WatchListFragmentTab.class, getApplicationContext()));
+        MenuItem searchItem = menu.findItem(R.id.search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        actionBar.addTab(popularTab);
-        actionBar.addTab(upcomingTab);
-        actionBar.addTab(topRatedTab);
-        actionBar.addTab(favoritesTab);
-        actionBar.addTab(watchListTab);
-        actionBar.addTab(searchTab);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        if (menuItem != null) {
+            MenuItemCompat.setOnActionExpandListener(menuItem, this);
+            MenuItemCompat.setActionView(menuItem, searchView);
+        }
 
+//        int searchPlateId = searchView.getContext().getResources()
+//                .getIdentifier("android:id/search_plate", null, null);
+//        View searchPlateView = searchView.findViewById(searchPlateId);
+//        if (searchPlateView != null) {
+//            searchPlateView.setBackgroundResource(R.drawable.texfield_searchview_holo_light);
+//        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.search) {
+            //if search menu item is clicked , SearchFragment replace TabFragment
+            fm.beginTransaction().replace(R.id.activity_tabs, new SearchFragmentTab()).commit();
+            return true;
+
+        } else if (item.getItemId() == R.id.logInOut) {
+            //Log In/Out logic
+            if (utils.isGuest()) {
+                utils.setGuest(false);
+                utils.logoutGuestSessionUser();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            } else {
+                utils.setGuest(true);
+                utils.logoutSessionUser();
+                startActivity(new Intent(getApplicationContext(), TabsActivity.class));
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        return true;
+    }
+
+    //When search menu item closed , TabsFragment replace SearchFragment
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        fm.beginTransaction().replace(R.id.activity_tabs, new TabsContainerFragment()).commit();
+        return true;
     }
 }
+
