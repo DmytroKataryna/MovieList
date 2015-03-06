@@ -46,7 +46,6 @@ public class SearchFragmentTab extends ListFragment {
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint("Search...");
 
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

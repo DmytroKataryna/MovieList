@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 
 import kat.android.com.movielist.common.PreferencesUtils;
@@ -61,18 +62,14 @@ public class TabsActivity extends ActionBarActivity implements MenuItemCompat.On
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+        View searchPlate = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+        searchPlate.setBackgroundResource(R.drawable.appcompat_textfield_activated_holo_dark);
+
         MenuItem menuItem = menu.findItem(R.id.search);
         if (menuItem != null) {
             MenuItemCompat.setOnActionExpandListener(menuItem, this);
             MenuItemCompat.setActionView(menuItem, searchView);
         }
-
-//        int searchPlateId = searchView.getContext().getResources()
-//                .getIdentifier("android:id/search_plate", null, null);
-//        View searchPlateView = searchView.findViewById(searchPlateId);
-//        if (searchPlateView != null) {
-//            searchPlateView.setBackgroundResource(R.drawable.texfield_searchview_holo_light);
-//        }
         return true;
     }
 
