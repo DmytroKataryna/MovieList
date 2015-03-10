@@ -54,7 +54,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if (utils.getGuestSessionID() == null & utils.getSessionID() == null) {
             utils.setGuest(false);
             getGuestLogin();
-
+//            startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+//                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         } else if (utils.getGuestSessionID() != null & utils.getSessionID() == null) {
             utils.setGuest(true);
             startActivity(new Intent(getApplicationContext(), TabsActivity.class)

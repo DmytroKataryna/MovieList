@@ -73,7 +73,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mCount = (TextView) v.findViewById(R.id.countView);
         mDescription = (TextView) v.findViewById(R.id.detailsDescriptionView);
         mHomePage = (TextView) v.findViewById(R.id.detailsHomePageView);
-        //mHomePage.setClickable(true);
 
         mFavoriteButt = (Button) v.findViewById(R.id.addFav);
         mFavoriteButt.setOnClickListener(this);
@@ -144,14 +143,16 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 rating = accountState.getRated().getValue();
                 mRatingBar.setRating(rating);
 
-                if (favorite)
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
-                else
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
                 if (watchList)
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_orange);
                 else
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_gray);
+
+                if (favorite)
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
+                else
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+
             }
 
             @Override
@@ -171,14 +172,16 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             public void success(AccountStateWithoutRate accountState, Response response) {
                 favorite = accountState.isFavorite();
                 watchList = accountState.isWatchlist();
-                if (favorite)
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
-                else
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+
                 if (watchList)
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_orange);
                 else
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_gray);
+
+                if (favorite)
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
+                else
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
             }
 
             @Override
