@@ -11,13 +11,11 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 
 import com.mikepenz.iconics.typeface.FontAwesome;
@@ -28,10 +26,9 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import kat.android.com.movielist.common.PreferencesUtils;
-import kat.android.com.movielist.fragments.tabs.SearchFragmentTab;
 
 //Activity which responsible for placing TabsFragments or SearchFragment
-public class TabsActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener {
+public class MovieListActivity extends ActionBarActivity implements MenuItemCompat.OnActionExpandListener {
 
     private PreferencesUtils utils;
 
@@ -126,7 +123,7 @@ public class TabsActivity extends ActionBarActivity implements MenuItemCompat.On
                                 } else {
                                     //logout
                                     utils.logoutSessionUser();
-                                    startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                                    startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                                 }
                                 break;

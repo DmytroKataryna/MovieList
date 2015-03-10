@@ -40,7 +40,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mLoginEditText = (EditText) findViewById(R.id.loginText);
         mPassEditText = (EditText) findViewById(R.id.passText);
         mSend = (Button) findViewById(R.id.loginButton);
-        mSend.setOnClickListener(this);x
+        mSend.setOnClickListener(this);
     }
 
     @Override
@@ -52,21 +52,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void checkSession() {
 
         if (utils.isUserLogin()) {
-            //if user session is already exist , then just start another activity
+            //if user session is already exist , then just start MovieList activity
             if (utils.getSessionID() != null) {
                 utils.setGuest(false);
-                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         } else {
-            //if it is first program start , then create guest session id
+            //if it is first launch of the program , then create guest session id
             if (utils.getGuestSessionID() == null) {
                 getGuestLogin();
-                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             } else {
+                //if it isn't first launch of the program (so guest session already exist)
                 utils.setGuest(true);
-                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         }
@@ -78,7 +79,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             case R.id.loginButton:
                 mLogin = mLoginEditText.getText().toString();
                 mPassword = mPassEditText.getText().toString();
-                //start a chain requests
+                //start a login chain requests
                 getLogin();
                 break;
         }
@@ -94,7 +95,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("TAGATAGA", "Guest Fail");
+                Log.d(DetailActivity.TAG, "Guest Fail");
             }
         });
     }
@@ -157,7 +158,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void success(Account account, Response response) {
                 utils.storeSessionUser(account.getId(), account.getUsername(), mSession_ID);
 
-                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
             }

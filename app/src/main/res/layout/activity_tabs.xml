@@ -16,7 +16,6 @@
         android:transitionName="actionBar" />
 
     <fragment
-
         android:id="@+id/fragment_popular"
         android:name="kat.android.com.movielist.fragments.tabs.PopularFragmentTab"
         android:layout_width="match_parent"
@@ -58,12 +57,6 @@
         android:name="kat.android.com.movielist.fragments.tabs.WatchListFragmentTab"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <!--<fragment-->
-    <!--android:id="@+id/fragment_logInOut"-->
-    <!--android:name="kat.android.com.movielist.fragments.LoginFragmentTab"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
 
 
 </LinearLayout>

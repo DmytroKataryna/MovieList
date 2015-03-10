@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,12 +19,12 @@ import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
+import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
-import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Rating;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
-import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
 import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -119,7 +118,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 if (data.getHomepage() != null && data.getHomepage().length() != 0) {
                     mHomePage.setText(Html.fromHtml("<font color=#FB8C00>Homepage :</font>" + (" <br/>") + data.getHomepage()));
                 }
-
                 //if guest session -> didn't upload favorite/rating/watchlist info
                 if (!utils.isGuest())
                     loadMovieAccountStateInformation();
@@ -208,6 +206,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     //change movie watchlist state
     private void movieWatchListChange(boolean state) {
+        Log.d("WATCHLIST LOG", "STATE " + state);
         RestClient.get().addMovieToWatchList(utils.getSessionUserID(), utils.getSessionID(), new WatchList("movie", id, state), new Callback<Status>() {
             @Override
             public void success(Status status, Response response) {
