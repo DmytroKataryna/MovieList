@@ -40,7 +40,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mLoginEditText = (EditText) findViewById(R.id.loginText);
         mPassEditText = (EditText) findViewById(R.id.passText);
         mSend = (Button) findViewById(R.id.loginButton);
-        mSend.setOnClickListener(this);
+        mSend.setOnClickListener(this);x
     }
 
     @Override
