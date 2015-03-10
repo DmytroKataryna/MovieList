@@ -51,19 +51,24 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private void checkSession() {
 
-        if (utils.getGuestSessionID() == null & utils.getSessionID() == null) {
-            utils.setGuest(false);
-            getGuestLogin();
-//            startActivity(new Intent(getApplicationContext(), TabsActivity.class)
-//                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        } else if (utils.getGuestSessionID() != null & utils.getSessionID() == null) {
-            utils.setGuest(true);
-            startActivity(new Intent(getApplicationContext(), TabsActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-        } else if (utils.getSessionID() != null) {
-            utils.setGuest(false);
-            startActivity(new Intent(getApplicationContext(), TabsActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        if (utils.isUserLogin()) {
+            //if user session is already exist , then just start another activity
+            if (utils.getSessionID() != null) {
+                utils.setGuest(false);
+                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
+        } else {
+            //if it is first program start , then create guest session id
+            if (utils.getGuestSessionID() == null) {
+                getGuestLogin();
+                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            } else {
+                utils.setGuest(true);
+                startActivity(new Intent(getApplicationContext(), TabsActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
         }
     }
 

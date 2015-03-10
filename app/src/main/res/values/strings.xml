@@ -29,4 +29,17 @@
     <string name="login">login</string>
     <string name="search">search</string>
 
+
+    <string name="drawer_item_popular">Popular</string>
+    <string name="drawer_item_upcoming">Upcoming</string>
+    <string name="drawer_item_top_rated">Top Rated</string>
+    <string name="drawer_item_user">User Details</string>
+    <string name="drawer_item_favorites">Favorites</string>
+    <string name="drawer_item_watch_list">Watch List</string>
+    <string name="drawer_item_login">Login</string>
+    <string name="drawer_item_logout">Logout</string>
+
+    <string name="drawer_item_discover">Discover</string>
+    <string name="drawer_item_search">Search</string>
+
 </resources>

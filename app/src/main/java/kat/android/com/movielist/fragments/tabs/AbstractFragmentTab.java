@@ -35,14 +35,27 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
+        setRetainInstance(true);
         loadData(currentPage);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //loadData(currentPage);
+        //implements custom AbsListView.OnScrollListener
+        listView.setOnScrollListener(new EndlessScrollListener() {
+            //load just first four pages
+            @Override
+            protected boolean hasMoreDataToLoad() {
+                return currentPage < 4;
+            }
+
+            @Override
+            protected void loadMoreData(int page) {
+                currentPage = page;
+                loadData(currentPage);
+            }
+        });
     }
 
     @Override
@@ -56,20 +69,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
             listView.setOnItemClickListener(this);
             listView.setAdapter(adapter);
 
-            //implements custom AbsListView.OnScrollListener
-            listView.setOnScrollListener(new EndlessScrollListener() {
-                //load just first four pages
-                @Override
-                protected boolean hasMoreDataToLoad() {
-                    return currentPage < 4;
-                }
 
-                @Override
-                protected void loadMoreData(int page) {
-                    currentPage = page;
-                    loadData(currentPage);
-                }
-            });
         } else {
             // If we are returning from a configuration change:
             // "view" is still attached to the previous view hierarchy
