@@ -17,7 +17,7 @@ public class DetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tabs);
+        setContentView(R.layout.activity_detail);
 
         //receiving movie id from intent , and send it to fragment ( by adding it to bundle)
         Bundle bundle = new Bundle();

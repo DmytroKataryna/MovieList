@@ -1,10 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_tabs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingTop="@dimen/tool_bar_top_padding"
+        android:transitionName="actionBar" />
+
+    <fragment
+        android:id="@+id/fragment_popular"
+        android:name="kat.android.com.movielist.fragments.tabs.PopularFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <fragment
+        android:id="@+id/fragment_upcoming"
+        android:name="kat.android.com.movielist.fragments.tabs.UpcomingFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragment_toprated"
+        android:name="kat.android.com.movielist.fragments.tabs.TopRatedFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="kat.android.com.movielist.fragments.tabs.SearchFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragment_discover"
+        android:name="kat.android.com.movielist.fragments.tabs.DiscoverFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragment_favorite"
+        android:name="kat.android.com.movielist.fragments.tabs.FavoritesFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/fragment_watchlist"
+        android:name="kat.android.com.movielist.fragments.tabs.WatchListFragmentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>
 

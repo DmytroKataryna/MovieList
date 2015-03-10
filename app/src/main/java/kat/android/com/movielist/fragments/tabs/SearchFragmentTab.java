@@ -11,12 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
-import kat.android.com.movielist.common.MovieAdapter;
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.common.MovieAdapter;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.Movie;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
@@ -39,6 +40,8 @@ public class SearchFragmentTab extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+
+        Toast.makeText(getActivity(), "SEARCH", Toast.LENGTH_SHORT).show();
 
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();

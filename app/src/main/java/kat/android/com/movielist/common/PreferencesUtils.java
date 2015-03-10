@@ -13,6 +13,8 @@ public class PreferencesUtils {
     private static final String KEY_SESSION_USER_USERNAME = "sessionUserUsername";
     private static final String KEY_SESSION_USER_ID = "sessionUserID";
     private static final String KEY_SESSION_ID = "sessionID";
+    private static final String KEY_USER_LOGIN_BOOLEAN_LABEL = "userBooleanLoginLabel";
+
     private static final String KEY_GUEST_SESSION_ID = "guestSessionID";
     private static final String KEY_GUEST_BOOLEAN_LABEL = "guestBooleanLabel";
 
@@ -58,12 +60,14 @@ public class PreferencesUtils {
         sharedPref.edit().putString(KEY_SESSION_USER_USERNAME, null)
                 .putInt(KEY_SESSION_USER_ID, -1)
                 .putString(KEY_SESSION_ID, null)
+                .putBoolean(KEY_USER_LOGIN_BOOLEAN_LABEL, false)
                 .putBoolean(KEY_GUEST_BOOLEAN_LABEL, true).apply();
         return true;
     }
 
     public boolean logoutGuestSessionUser() {
         sharedPref.edit().putString(KEY_GUEST_SESSION_ID, null)
+                .putBoolean(KEY_USER_LOGIN_BOOLEAN_LABEL, true)
                 .putBoolean(KEY_GUEST_BOOLEAN_LABEL, false).apply();
         return true;
     }
@@ -81,7 +85,7 @@ public class PreferencesUtils {
     }
 
     public boolean isGuest() {
-        return sharedPref.getBoolean(KEY_GUEST_BOOLEAN_LABEL, true);
+        return sharedPref.getBoolean(KEY_GUEST_BOOLEAN_LABEL, false);
     }
 
     public void setGuest(boolean guest) {
@@ -89,4 +93,16 @@ public class PreferencesUtils {
         editor.putBoolean(KEY_GUEST_BOOLEAN_LABEL, guest);
         editor.apply();
     }
+
+    public boolean isUserLogin() {
+        return sharedPref.getBoolean(KEY_USER_LOGIN_BOOLEAN_LABEL, false);
+    }
+
+    public void setUserLogin(boolean userLogin) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(KEY_USER_LOGIN_BOOLEAN_LABEL, userLogin);
+        editor.apply();
+    }
+
+
 }

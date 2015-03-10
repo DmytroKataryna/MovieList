@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,12 +19,12 @@ import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
+import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
-import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Rating;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
-import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
 import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -73,7 +72,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mCount = (TextView) v.findViewById(R.id.countView);
         mDescription = (TextView) v.findViewById(R.id.detailsDescriptionView);
         mHomePage = (TextView) v.findViewById(R.id.detailsHomePageView);
-        //mHomePage.setClickable(true);
 
         mFavoriteButt = (Button) v.findViewById(R.id.addFav);
         mFavoriteButt.setOnClickListener(this);
@@ -120,7 +118,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 if (data.getHomepage() != null && data.getHomepage().length() != 0) {
                     mHomePage.setText(Html.fromHtml("<font color=#FB8C00>Homepage :</font>" + (" <br/>") + data.getHomepage()));
                 }
-
                 //if guest session -> didn't upload favorite/rating/watchlist info
                 if (!utils.isGuest())
                     loadMovieAccountStateInformation();
@@ -144,14 +141,16 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 rating = accountState.getRated().getValue();
                 mRatingBar.setRating(rating);
 
-                if (favorite)
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
-                else
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
                 if (watchList)
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_orange);
                 else
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_gray);
+
+                if (favorite)
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
+                else
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+
             }
 
             @Override
@@ -171,14 +170,16 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             public void success(AccountStateWithoutRate accountState, Response response) {
                 favorite = accountState.isFavorite();
                 watchList = accountState.isWatchlist();
-                if (favorite)
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
-                else
-                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
+
                 if (watchList)
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_orange);
                 else
                     mWatchListButt.setBackgroundResource(R.drawable.ic_action_watchlist_gray);
+
+                if (favorite)
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
+                else
+                    mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
             }
 
             @Override
@@ -205,6 +206,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     //change movie watchlist state
     private void movieWatchListChange(boolean state) {
+        Log.d("WATCHLIST LOG", "STATE " + state);
         RestClient.get().addMovieToWatchList(utils.getSessionUserID(), utils.getSessionID(), new WatchList("movie", id, state), new Callback<Status>() {
             @Override
             public void success(Status status, Response response) {
