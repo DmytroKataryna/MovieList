@@ -115,6 +115,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                             case WATCHLIST_FRAGMENT + 1:
                                 showFragment(WATCHLIST_FRAGMENT);
                                 break;
+                            //log in out button
                             case LOG_IN_OUT_FRAGMENT + 2:
                                 if (utils.isGuest()) {
                                     //login

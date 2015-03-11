@@ -20,12 +20,12 @@ public class FavoritesFragmentTab extends AbstractFragmentTab {
     public void loadData(int page) {
         utils = PreferencesUtils.get(getActivity());
 
-        RestClient.get().getFavoritesMovies(utils.getSessionUserID(), utils.getSessionID(), 1, new Callback<MovieResponse>() {
+        RestClient.get().getFavoritesMovies(utils.getSessionUserID(), utils.getSessionID(), page, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
-                movieList.clear();
+                //get movies list , and add it to array
                 movieList.addAll(movieResponse.getMovies());
-                listView.setVisibility(View.VISIBLE);
+                totalPages = movieResponse.getTotal_pages();
                 adapter.notifyDataSetChanged();
             }
 

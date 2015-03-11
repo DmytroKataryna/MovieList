@@ -25,7 +25,8 @@ import kat.android.com.movielist.rest.pojo.movie.Movie;
 
 public abstract class AbstractFragmentTab extends Fragment implements AdapterView.OnItemClickListener {
 
-    private int currentPage = 1;
+    protected int currentPage = 1;
+    protected int totalPages = 1;
 
     List<Movie> movieList = new ArrayList<>();
     SuperListview listView;
@@ -54,8 +55,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
             listView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (currentPage < 10)
-                        loadFirstPage();
+                    loadFirstPage();
                     listView.hideMoreProgress();
                 }
             });
@@ -63,7 +63,8 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
                 @Override
                 public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
                     listView.showMoreProgress();
-                    loadData(++currentPage);
+                    if (currentPage < totalPages)
+                        loadData(++currentPage);
                     listView.hideMoreProgress();
                 }
             }, 5);
