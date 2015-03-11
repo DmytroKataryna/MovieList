@@ -1,6 +1,8 @@
 package kat.android.com.movielist.rest;
 
 
+import java.util.Map;
+
 import kat.android.com.movielist.rest.pojo.userdatails.GuestSession;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
@@ -19,6 +21,7 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 
 //All Http requests
@@ -121,21 +124,22 @@ public interface API {
     @GET("/authentication/guest_session/new" + API_KEY)
     void getGuestSession(Callback<GuestSession> callback);
 
+    //Discover get request
+//    @GET("/discover/movie" + API_KEY)
+//    void getDiscoverMovies(@QueryMap Map<String, String> map, Callback<MovieResponse> callback);
 
-    //add/remove from favorite
-//    @POST("/account/{id}/favorite" + API_KEY)
-//    void addMovieToFavorites(@Path("id") int id,
-//                             @Query("session_id") String session,
-//                             @QueryMap Map<String, Object> parameters,
-//                             Callback<Status> callback);
+    //better use QueryMap
+    @GET("/discover/movie" + API_KEY)
+    void getDiscoverMovies(@Query("include_adult") boolean adult,
+                           @Query("page") Integer page,
+                           @Query("primary_release_year") String year,
+                           @Query("primary_release_date.gte") String yearGTE,
+                           @Query("primary_release_date.lte") String yearLTE,
+                           @Query("sort_by") String sort,
+                           @Query("vote_average.gte") Float voteGTE,
+                           @Query("vote_average.lte") Float voteLTE,
+                           @Query("with_people") String people,
+                           Callback<MovieResponse> callback);
 
-//    //add/remove from favorite
-//    @POST("/account/{id}/favorite" + API_KEY)
-//    void addMovieToFavorites(@Path("id") int id,
-//                             @Query("session_id") String session,
-//                             @Field("media_type") String media_type,
-//                             @Field("media_id") Integer media_id,
-//                             @Field("favorite") Boolean favorite,
-//                             Callback<Status> callback);
 
 }

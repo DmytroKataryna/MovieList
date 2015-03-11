@@ -51,7 +51,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
 
     private SearchView searchView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +170,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         transaction.commit();
     }
 
-    private void showFragment(int fragmentIndex) {
+    protected void showFragment(int fragmentIndex) {
         FragmentTransaction transaction = fm.beginTransaction();
         for (int i = 0; i < fragments.length; i++) {
             if (i == fragmentIndex) {
@@ -233,6 +232,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     //When search menu item closed , TabsFragment replace SearchFragment
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
+        drawerResult.setSelection(2);
         showFragment(TOP_RATED_FRAGMENT);
         return true;
     }

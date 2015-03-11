@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/back_to_discover"
+        android:icon="@android:drawable/checkbox_on_background"
+        android:title="Back"
+        app:showAsAction="ifRoom" />
+
+</menu>

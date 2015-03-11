@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <com.quentindommerc.superlistview.SuperListview xmlns:superlistview="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -14,6 +13,5 @@
         superlistview:superlv__listDividerHeight="10dp"
         superlistview:superlv__listPadding="10dp"
         superlistview:superlv__scrollbarStyle="outsideOverlay" />
-
 
 </LinearLayout>
