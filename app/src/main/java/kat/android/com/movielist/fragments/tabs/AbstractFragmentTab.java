@@ -36,6 +36,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         loadFirstPage();
     }
 

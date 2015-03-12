@@ -21,7 +21,7 @@ public class WatchListFragmentTab extends AbstractFragmentTab {
     public void loadData(int page) {
         utils = PreferencesUtils.get(getActivity());
 
-        RestClient.get().getWatchListMovies(utils.getSessionUserID(), utils.getSessionID(), 1, new Callback<MovieResponse>() {
+        RestClient.get().getWatchListMovies(utils.getSessionUserID(), utils.getSessionID(), page, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
                 movieList.clear();

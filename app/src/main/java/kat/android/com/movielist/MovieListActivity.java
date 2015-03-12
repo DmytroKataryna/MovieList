@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-
 
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
@@ -45,7 +42,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
     private Drawer.Result drawerResult = null;
-    private Toolbar toolbar;
+    //private Toolbar toolbar;
 
     private FragmentManager fm;
 
@@ -57,10 +54,10 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.inflateMenu(R.menu.menu_tabs);
 
-        setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         utils = PreferencesUtils.get(getApplicationContext());
@@ -80,8 +77,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
 
         drawerResult = new Drawer()
                 .withActivity(this)
-                .withToolbar(toolbar)
-                .withHeader(R.layout.drawer_header)
+                .withActionBarDrawerToggle(true)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_popular).withIcon(FontAwesome.Icon.faw_film).withIdentifier(0),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_upcoming).withIcon(FontAwesome.Icon.faw_eye).withIdentifier(1),
@@ -150,16 +146,16 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 }).withSelectedItem(POPULAR_FRAGMENT).build();
 
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.search) {
-                    //if search menu item is clicked , show SearchFragment
-                    showFragment(SEARCH_FRAGMENT);
-                }
-                return true;
-            }
-        });
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                if (menuItem.getItemId() == R.id.search) {
+//                    //if search menu item is clicked , show SearchFragment
+//                    showFragment(SEARCH_FRAGMENT);
+//                }
+//                return true;
+//            }
+//        });
     }
 
     private void hideFragment() {
@@ -199,29 +195,21 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        if (item.getItemId() == R.id.search) {
-//            //if search menu item is clicked , show SearchFragment
-//            showFragment(SEARCH_FRAGMENT);
-//            return true;
-//
-//        } else if (item.getItemId() == R.id.logInOut) {
-//            //Log In/Out logic
-//            if (utils.isGuest()) {
-//                utils.setGuest(false);
-//                utils.logoutGuestSessionUser();
-//                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//            } else {
-//                utils.setGuest(true);
-//                utils.logoutSessionUser();
-//                startActivity(new Intent(getApplicationContext(), TabsActivity.class));
-//            }
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.search) {
+            //if search menu item is clicked , show SearchFragment
+            showFragment(SEARCH_FRAGMENT);
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            if (drawerResult.isDrawerOpen())
+                drawerResult.closeDrawer();
+            else
+                drawerResult.openDrawer();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
