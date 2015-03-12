@@ -146,7 +146,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
             MovieListActivity.drawerResult.setSelection(4);
 
             getFragmentManager().beginTransaction()
-                    .hide(getFragmentManager().findFragmentById(R.id.fragment_discover_movies_list))
+                    .hide(getFragmentManager().findFragmentById(R.id.fragment_discover_data_list))
                     .show(getFragmentManager().findFragmentById(R.id.fragment_discover))
                     .commit();
         }
