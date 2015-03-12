@@ -24,13 +24,25 @@ public class PreferencesUtils {
 
     //************** discover data **************
     private static final String KEY_DISCOVER_ADULT = "discoverADULT";
+
     private static final String KEY_DISCOVER_PRIMARY_RELEASE_YEAR = "discoverRELEASE";
+    private static final String KEY_DISCOVER_PRIMARY_RELEASE_YEAR_POSITION = "discoverRELEASE_POS";
+
     private static final String KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER = "discoverRELEASE_ORDER";
+    private static final String KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER_POSITION = "discoverRELEASE_ORDER_POS";
+
     private static final String KEY_DISCOVER_SORT_BY = "discoverSORT";
+    private static final String KEY_DISCOVER_SORT_BY_POSITION = "discoverSORT_POS";
 
     private static final String KEY_DISCOVER_VOTE_AVERAGE = "discoverVOTE_AVG";
+    private static final String KEY_DISCOVER_VOTE_AVERAGE_POSITION = "discoverVOTE_AVG_POS";
+
     private static final String KEY_DISCOVER_VOTE_AVERAGE_ORDER = "discoverVOTE_ORDER";
-    private static final String KEY_DISCOVER_PEOPLE = "discoverPEOPLE";
+    private static final String KEY_DISCOVER_VOTE_AVERAGE_ORDER_POSITION = "discoverVOTE_ORDER_POS";
+
+    private static final String KEY_DISCOVER_PEOPLES = "discoverPEOPLE";
+    private static final String KEY_DISCOVER_PEOPLES_ID = "discoverPEOPLE_ID";
+
 
     //***********************************  PREFERENCES ********************************************************
     public PreferencesUtils(Context context) {
@@ -128,45 +140,79 @@ public class PreferencesUtils {
         return sharedPref.getBoolean(KEY_DISCOVER_ADULT, false);
     }
 
-    public void setReleaseYear(String year) {
-        sharedPref.edit().putString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR, year).apply();
+    //******** release year
+    public void setReleaseYear(String year, int position) {
+        sharedPref.edit().putString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR, year)
+                .putInt(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_POSITION, position).apply();
     }
 
     public String getReleaseYear() {
         return sharedPref.getString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR, null);
     }
 
-    public void setReleaseOrder(String releaseOrder) {
-        sharedPref.edit().putString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, releaseOrder).apply();
+    public int getReleaseYearPos() {
+        return sharedPref.getInt(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_POSITION, 0);
+    }
+
+    //******** release order
+    public void setReleaseOrder(String releaseOrder, int position) {
+        sharedPref.edit().putString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, releaseOrder)
+                .putInt(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER_POSITION, position).apply();
     }
 
     public String getReleaseOrder() {
         return sharedPref.getString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, null);
     }
 
-    public void setSortOrder(String sortOrder) {
-        sharedPref.edit().putString(KEY_DISCOVER_SORT_BY, sortOrder).apply();
+    public int getReleaseOrderPos() {
+        return sharedPref.getInt(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER_POSITION, 0);
+    }
+
+    //********* release sortBy
+    public void setSortOrder(String sortOrder, int position) {
+        sharedPref.edit().putString(KEY_DISCOVER_SORT_BY, sortOrder)
+                .putInt(KEY_DISCOVER_SORT_BY_POSITION, position).apply();
     }
 
     public String getSortOrder() {
         return sharedPref.getString(KEY_DISCOVER_SORT_BY, null);
     }
 
-    public void setVoteAvg(String voteAvg) {
-        sharedPref.edit().putString(KEY_DISCOVER_VOTE_AVERAGE, voteAvg).apply();
+    public int getSortOrderPos() {
+        return sharedPref.getInt(KEY_DISCOVER_SORT_BY_POSITION, 0);
+    }
+
+
+    //********* vote average
+    public void setVoteAvg(String voteAvg, int position) {
+        sharedPref.edit().putString(KEY_DISCOVER_VOTE_AVERAGE, voteAvg)
+                .putInt(KEY_DISCOVER_VOTE_AVERAGE_POSITION, position).apply();
     }
 
     public String getVoteAvg() {
         return sharedPref.getString(KEY_DISCOVER_VOTE_AVERAGE, null);
     }
 
-    public void setVoteOrder(String voteOrder) {
-        sharedPref.edit().putString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, voteOrder).apply();
+    public int getVoteAvgPos() {
+        return sharedPref.getInt(KEY_DISCOVER_VOTE_AVERAGE_POSITION, 0);
+    }
+
+    // ************ vote average order
+    public void setVoteOrder(String voteOrder, int position) {
+        sharedPref.edit().putString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, voteOrder)
+                .putInt(KEY_DISCOVER_VOTE_AVERAGE_ORDER_POSITION, position).apply();
     }
 
     public String getVoteOrder() {
         return sharedPref.getString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, null);
     }
+
+    public int getVoteOrderPos() {
+        return sharedPref.getInt(KEY_DISCOVER_VOTE_AVERAGE_ORDER_POSITION, 0);
+    }
+
+    //***********
+
 
     //people pref , should be KeyMap
 

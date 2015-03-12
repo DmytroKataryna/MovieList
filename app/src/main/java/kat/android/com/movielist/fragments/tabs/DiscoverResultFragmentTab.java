@@ -4,11 +4,13 @@ package kat.android.com.movielist.fragments.tabs;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
+import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
@@ -20,8 +22,8 @@ import retrofit.client.Response;
 public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
     private PreferencesUtils utils;
+
     private boolean adult;
-    //page
     private String release_year;
     private String release_order_gte;
     private String release_order_lte;
@@ -37,6 +39,25 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     @Override
     public void loadData(int page) {
         utils = PreferencesUtils.get(getActivity());
+        getRequestParameters();
+
+        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, null, new Callback<MovieResponse>() {
+            @Override
+            public void success(MovieResponse movieResponse, Response response) {
+                movieList.addAll(movieResponse.getMovies());
+                totalPages = movieResponse.getTotal_pages();
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(DetailActivity.TAG, "An error occurred while downloading discover movies list.");
+            }
+        });
+    }
+
+
+    private void getRequestParameters() {
 
         adult = utils.isAdult();
         year = utils.getReleaseYear();
@@ -93,7 +114,6 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
                 break;
         }
 
-
         //vote average
         switch (utils.getVoteOrder()) {
             case "None":
@@ -109,26 +129,28 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
                 voteLTE = Float.valueOf(vote);
                 break;
         }
-
-        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, null, new Callback<MovieResponse>() {
-            @Override
-            public void success(MovieResponse movieResponse, Response response) {
-                movieList.addAll(movieResponse.getMovies());
-                totalPages = movieResponse.getTotal_pages();
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.d(DetailActivity.TAG, "An error occurred while downloading discover movies list.");
-            }
-        });
     }
 
-    //not working
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//        inflater.inflate(R.menu.menu_discover, menu);
-//    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.search).setVisible(false);
+        menu.findItem(R.id.done).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.done) {
+            //set position to discover tab (isn't best idea)
+            MovieListActivity.drawerResult.setSelection(4);
+
+            getFragmentManager().beginTransaction()
+                    .hide(getFragmentManager().findFragmentById(R.id.fragment_discover_movies_list))
+                    .show(getFragmentManager().findFragmentById(R.id.fragment_discover))
+                    .commit();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

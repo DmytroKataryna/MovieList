@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
@@ -37,6 +39,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         loadFirstPage();
     }
 
@@ -93,4 +96,11 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     }
 
     public abstract void loadData(int page);
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.search).setVisible(true);
+        menu.findItem(R.id.done).setVisible(false);
+    }
 }

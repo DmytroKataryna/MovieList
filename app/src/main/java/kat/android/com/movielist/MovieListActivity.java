@@ -45,11 +45,11 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     private static final int FRAGMENT_COUNT = WATCHLIST_FRAGMENT + 1;
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
-    private Drawer.Result drawerResult = null;
+    public static Drawer.Result drawerResult;
 
     private FragmentManager fm;
 
-    private SearchView searchView;
+    protected SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +184,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-          //if search menu item is clicked , show SearchFragment
+        //if search menu item is clicked , show SearchFragment
         if (item.getItemId() == R.id.search) {
             showFragment(SEARCH_FRAGMENT);
             return true;
