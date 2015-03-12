@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -184,18 +185,21 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //if search menu item is clicked , show SearchFragment
-        if (item.getItemId() == R.id.search) {
-            showFragment(SEARCH_FRAGMENT);
-            return true;
-        } else if (item.getItemId() == android.R.id.home) {
-            //home button listener
-            if (drawerResult.isDrawerOpen())
-                drawerResult.closeDrawer();
-            else
-                drawerResult.openDrawer();
+        switch (item.getItemId()) {
+            //if search menu item is clicked , show SearchFragment
+            case R.id.search:
+                if (drawerResult.isDrawerOpen())
+                    drawerResult.closeDrawer();
+                showFragment(SEARCH_FRAGMENT);
+                return true;
 
-            return true;
+            case android.R.id.home:
+                //home button listener
+                if (drawerResult.isDrawerOpen())
+                    drawerResult.closeDrawer();
+                else
+                    drawerResult.openDrawer();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -205,7 +209,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     public boolean onMenuItemActionExpand(MenuItem item) {
         return true;
     }
-
     //When search menu item closed , TabsFragment replace SearchFragment
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {

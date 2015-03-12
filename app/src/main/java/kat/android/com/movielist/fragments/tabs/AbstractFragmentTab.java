@@ -43,7 +43,6 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         loadFirstPage();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -95,12 +94,12 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         loadData(currentPage);
     }
 
-    public abstract void loadData(int page);
-
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.search).setVisible(true);
         menu.findItem(R.id.done).setVisible(false);
     }
+
+    public abstract void loadData(int page);
 }

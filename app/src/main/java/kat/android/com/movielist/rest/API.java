@@ -1,19 +1,18 @@
 package kat.android.com.movielist.rest;
 
 
-import java.util.Map;
-
+import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
+import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.person.PersonResult;
+import kat.android.com.movielist.rest.pojo.userdatails.Account;
 import kat.android.com.movielist.rest.pojo.userdatails.GuestSession;
+import kat.android.com.movielist.rest.pojo.userdatails.Session;
+import kat.android.com.movielist.rest.pojo.userdatails.Token;
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
-import kat.android.com.movielist.rest.pojo.userdatails.Account;
-import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
-import kat.android.com.movielist.rest.pojo.userdatails.Session;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Rating;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
-import kat.android.com.movielist.rest.pojo.userdatails.Token;
-import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
-import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -21,7 +20,6 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
-import retrofit.http.QueryMap;
 
 
 //All Http requests
@@ -140,6 +138,11 @@ public interface API {
                            @Query("vote_average.lte") Float voteLTE,
                            @Query("with_people") String people,
                            Callback<MovieResponse> callback);
+
+    //search person
+    @GET("/search/person" + API_KEY)
+    void getPerson(@Query("query") String personName,
+                   Callback<PersonResult> callback);
 
 
 }

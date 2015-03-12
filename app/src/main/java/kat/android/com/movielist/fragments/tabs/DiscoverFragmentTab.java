@@ -100,7 +100,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
                 getFragmentManager().beginTransaction()
                         .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
-                        .replace(R.id.fragment_discover_movies_list, new DiscoverResultFragmentTab())
+                        .replace(R.id.fragment_discover_data_list, new DiscoverResultFragmentTab())
                         .commit();
                 break;
 
@@ -118,7 +118,11 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.peopleEditText:
-                //start people fragment ( with searchView and without action Bar)
+
+                getFragmentManager().beginTransaction()
+                        .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
+                        .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
+                        .commit();
                 break;
         }
     }
