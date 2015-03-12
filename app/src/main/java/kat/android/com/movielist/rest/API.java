@@ -1,17 +1,18 @@
 package kat.android.com.movielist.rest;
 
 
+import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
+import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.person.PersonResult;
+import kat.android.com.movielist.rest.pojo.userdatails.Account;
 import kat.android.com.movielist.rest.pojo.userdatails.GuestSession;
+import kat.android.com.movielist.rest.pojo.userdatails.Session;
+import kat.android.com.movielist.rest.pojo.userdatails.Token;
+import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
-import kat.android.com.movielist.rest.pojo.userdatails.Account;
-import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
-import kat.android.com.movielist.rest.pojo.userdatails.Session;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Rating;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Status;
-import kat.android.com.movielist.rest.pojo.userdatails.Token;
-import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
-import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -121,21 +122,27 @@ public interface API {
     @GET("/authentication/guest_session/new" + API_KEY)
     void getGuestSession(Callback<GuestSession> callback);
 
+    //Discover get request
+//    @GET("/discover/movie" + API_KEY)
+//    void getDiscoverMovies(@QueryMap Map<String, String> map, Callback<MovieResponse> callback);
 
-    //add/remove from favorite
-//    @POST("/account/{id}/favorite" + API_KEY)
-//    void addMovieToFavorites(@Path("id") int id,
-//                             @Query("session_id") String session,
-//                             @QueryMap Map<String, Object> parameters,
-//                             Callback<Status> callback);
+    //better use QueryMap
+    @GET("/discover/movie" + API_KEY)
+    void getDiscoverMovies(@Query("include_adult") boolean adult,
+                           @Query("page") Integer page,
+                           @Query("primary_release_year") String year,
+                           @Query("primary_release_date.gte") String yearGTE,
+                           @Query("primary_release_date.lte") String yearLTE,
+                           @Query("sort_by") String sort,
+                           @Query("vote_average.gte") Float voteGTE,
+                           @Query("vote_average.lte") Float voteLTE,
+                           @Query("with_people") String people,
+                           Callback<MovieResponse> callback);
 
-//    //add/remove from favorite
-//    @POST("/account/{id}/favorite" + API_KEY)
-//    void addMovieToFavorites(@Path("id") int id,
-//                             @Query("session_id") String session,
-//                             @Field("media_type") String media_type,
-//                             @Field("media_id") Integer media_id,
-//                             @Field("favorite") Boolean favorite,
-//                             Callback<Status> callback);
+    //search person
+    @GET("/search/person" + API_KEY)
+    void getPerson(@Query("query") String personName,
+                   Callback<PersonResult> callback);
+
 
 }

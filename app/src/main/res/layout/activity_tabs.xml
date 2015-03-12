@@ -5,12 +5,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:background="@drawable/toolbar_background"-->
-        <!--android:minHeight="?attr/actionBarSize" />-->
 
     <fragment
         android:id="@+id/fragment_popular"
@@ -55,6 +49,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <FrameLayout
+        android:id="@+id/fragment_discover_data_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 
 </LinearLayout>
-

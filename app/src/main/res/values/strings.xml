@@ -42,4 +42,34 @@
     <string name="drawer_item_discover">Discover</string>
     <string name="drawer_item_search">Search</string>
 
+    <string-array name="sort_by_array">
+        <item>None</item>
+        <item>Release Date asc</item>
+        <item>Release Date desc</item>
+        <item>Popularity asc</item>
+        <item>Popularity desc</item>
+        <item>Vote Average asc</item>
+        <item>Vote Average desc</item>
+        <item>Vote Count asc</item>
+        <item>Vote Count desc</item>
+    </string-array>
+
+    <string-array name="rating_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="year_order_array">
+        <item>None</item>
+        <item>Greater</item>
+        <item>Less</item>
+    </string-array>
+
 </resources>

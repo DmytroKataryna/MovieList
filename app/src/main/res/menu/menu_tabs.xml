@@ -11,9 +11,11 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
-        android:id="@+id/txt"
-        android:icon="@android:drawable/ic_delete"
-        android:title="DELETE"
+
+        android:id="@+id/done"
+        android:icon="@android:drawable/stat_sys_upload_done"
+        android:title="Done"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
@@ -25,7 +27,8 @@ import kat.android.com.movielist.rest.pojo.movie.Movie;
 
 public abstract class AbstractFragmentTab extends Fragment implements AdapterView.OnItemClickListener {
 
-    private int currentPage = 1;
+    protected int currentPage = 1;
+    protected int totalPages = 1;
 
     List<Movie> movieList = new ArrayList<>();
     SuperListview listView;
@@ -39,7 +42,6 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         setHasOptionsMenu(true);
         loadFirstPage();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,8 +57,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
             listView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    if (currentPage < 10)
-                        loadFirstPage();
+                    loadFirstPage();
                     listView.hideMoreProgress();
                 }
             });
@@ -64,7 +65,8 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
                 @Override
                 public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
                     listView.showMoreProgress();
-                    loadData(++currentPage);
+                    if (currentPage < totalPages)
+                        loadData(++currentPage);
                     listView.hideMoreProgress();
                 }
             }, 5);
@@ -90,6 +92,13 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         movieList.clear();
         currentPage = 1;
         loadData(currentPage);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.search).setVisible(true);
+        menu.findItem(R.id.done).setVisible(false);
     }
 
     public abstract void loadData(int page);

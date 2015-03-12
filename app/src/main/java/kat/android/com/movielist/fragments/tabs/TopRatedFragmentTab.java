@@ -23,7 +23,7 @@ public class TopRatedFragmentTab extends AbstractFragmentTab {
             public void success(MovieResponse movieResponse, Response response) {
                 //get movies list , and add it to array
                 movieList.addAll(movieResponse.getMovies());
-                listView.setVisibility(View.VISIBLE);
+                totalPages = movieResponse.getTotal_pages();
                 adapter.notifyDataSetChanged();
             }
 

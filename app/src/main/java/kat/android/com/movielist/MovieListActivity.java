@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
@@ -41,23 +43,20 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     private static final int FRAGMENT_COUNT = WATCHLIST_FRAGMENT + 1;
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
-    private Drawer.Result drawerResult = null;
-    //private Toolbar toolbar;
+
+    public static Drawer.Result drawerResult;
+
 
     private FragmentManager fm;
 
-    private SearchView searchView;
-
+    protected SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
 
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.inflateMenu(R.menu.menu_tabs);
 
-        // setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         utils = PreferencesUtils.get(getApplicationContext());
@@ -70,7 +69,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         fragments[DISCOVER_FRAGMENT] = fm.findFragmentById(R.id.fragment_discover);
         fragments[FAVORITE_FRAGMENT] = fm.findFragmentById(R.id.fragment_favorite);
         fragments[WATCHLIST_FRAGMENT] = fm.findFragmentById(R.id.fragment_watchlist);
-        //init login fragment
 
         //hide all fragments
         hideFragment();
@@ -92,7 +90,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 ).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long index, IDrawerItem iDrawerItem) {
-                        switch (position - 1) {
+                        switch (position) {
                             case POPULAR_FRAGMENT:
                                 showFragment(POPULAR_FRAGMENT);
                                 break;
@@ -111,6 +109,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                             case WATCHLIST_FRAGMENT + 1:
                                 showFragment(WATCHLIST_FRAGMENT);
                                 break;
+                            //log in out button
                             case LOG_IN_OUT_FRAGMENT + 2:
                                 if (utils.isGuest()) {
                                     //login
@@ -129,13 +128,13 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                     @Override
                     public void onDrawerOpened(View view) {
                         if (utils.isGuest()) {
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(false), 7);
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(false), 8);
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login).withIcon(FontAwesome.Icon.faw_sign_in), 10);
+                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(false), 6);
+                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(false), 7);
+                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login).withIcon(FontAwesome.Icon.faw_sign_in), 9);
                         } else {
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(true), 7);
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(true), 8);
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withIcon(FontAwesome.Icon.faw_sign_out), 10);
+                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(true), 6);
+                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(true), 7);
+                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withIcon(FontAwesome.Icon.faw_sign_out), 9);
                         }
                     }
 
@@ -144,18 +143,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
 
                     }
                 }).withSelectedItem(POPULAR_FRAGMENT).build();
-
-
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//                if (menuItem.getItemId() == R.id.search) {
-//                    //if search menu item is clicked , show SearchFragment
-//                    showFragment(SEARCH_FRAGMENT);
-//                }
-//                return true;
-//            }
-//        });
     }
 
     private void hideFragment() {
@@ -166,7 +153,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         transaction.commit();
     }
 
-    private void showFragment(int fragmentIndex) {
+    protected void showFragment(int fragmentIndex) {
         FragmentTransaction transaction = fm.beginTransaction();
         for (int i = 0; i < fragments.length; i++) {
             if (i == fragmentIndex) {
@@ -198,16 +185,23 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.search) {
+
+        switch (item.getItemId()) {
             //if search menu item is clicked , show SearchFragment
-            showFragment(SEARCH_FRAGMENT);
-            return true;
-        } else if (item.getItemId() == android.R.id.home) {
-            if (drawerResult.isDrawerOpen())
-                drawerResult.closeDrawer();
-            else
-                drawerResult.openDrawer();
-        }
+            case R.id.search:
+                if (drawerResult.isDrawerOpen())
+                    drawerResult.closeDrawer();
+                showFragment(SEARCH_FRAGMENT);
+                return true;
+
+            case android.R.id.home:
+                //home button listener
+                if (drawerResult.isDrawerOpen())
+                    drawerResult.closeDrawer();
+                else
+                    drawerResult.openDrawer();
+                return true;
+}
         return super.onOptionsItemSelected(item);
     }
 
@@ -216,10 +210,10 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     public boolean onMenuItemActionExpand(MenuItem item) {
         return true;
     }
-
     //When search menu item closed , TabsFragment replace SearchFragment
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
+        drawerResult.setSelection(2);
         showFragment(TOP_RATED_FRAGMENT);
         return true;
     }
