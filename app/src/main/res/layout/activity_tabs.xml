@@ -5,13 +5,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/toolbar_background"
-        android:minHeight="?attr/actionBarSize" />
-
     <fragment
         android:id="@+id/fragment_popular"
         android:name="kat.android.com.movielist.fragments.tabs.PopularFragmentTab"
@@ -58,12 +51,7 @@
     <FrameLayout
         android:id="@+id/fragment_discover_movies_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
-
-<!--<fragment--><!--android:id="@+id/fragment_discover_movies_list"-->
-
-    <!--android:layout_width="match_parent"--><!--android:layout_height="match_parent" />-->
-    <!--android:name="kat.android.com.movielist.fragments.tabs.DiscoverResultFragmentTab"-->
