@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Person Name"
+                    android:text="@string/personName"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFA726" />
 
@@ -42,7 +42,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     android:gravity="center"
-                    android:text="PopMark"
+                    android:text="@string/mark"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFA726" />
 
@@ -60,22 +60,22 @@
             <LinearLayout
                 android:id="@+id/LinearMovieLayout"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/movieNameTextFirst"
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
-                    android:text="Movie1"
-                    android:textSize="18sp" />
+                    android:text="@string/movie1"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/movieNameTextSecond"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Movie2"
-                    android:textSize="18sp" />
+                    android:text="@string/movie2"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

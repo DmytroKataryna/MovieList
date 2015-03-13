@@ -41,6 +41,20 @@
 
     <string name="drawer_item_discover">Discover</string>
     <string name="drawer_item_search">Search</string>
+    <string name="refresh">Refresh</string>
+    <string name="done">Done</string>
+    <string name="movie1">Movie1</string>
+    <string name="movie2">Movie2</string>
+    <string name="mark">Mark</string>
+    <string name="personName">Person Name</string>
+    <string name="people">People :</string>
+    <string name="rating">Rating :</string>
+    <string name="sort">Sort by :</string>
+    <string name="year">Year :</string>
+    <string name="adult">Adult :</string>
+    <string name="discover">DISCOVER</string>
+    <string name="signUp">Sign Up</string>
+    <string name="signIn">Sign In</string>
 
     <string-array name="sort_by_array">
         <item>None</item>

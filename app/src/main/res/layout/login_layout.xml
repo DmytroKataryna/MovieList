@@ -29,12 +29,36 @@
         android:ems="10"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_holo_light_orange"
-        android:text="Login" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_holo_light_orange"
+            android:text="@string/signIn"
+            android:layout_marginLeft="89dp"
+            android:layout_marginStart="89dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/regButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_holo_light_orange"
+            android:text="@string/signUp"
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/loginButton"
+            android:layout_toEndOf="@+id/loginButton"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp" />
+    </RelativeLayout>
+
 
 </LinearLayout>

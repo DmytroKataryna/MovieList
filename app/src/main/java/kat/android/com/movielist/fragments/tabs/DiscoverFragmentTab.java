@@ -28,7 +28,6 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
 
     private PreferencesUtils utils;
-
     private Spinner mYearSpinner, mSortSpinner, mYearOrderSpinner, mRatingSpinner, mRatingOrderSpinner;
     private EditText mPeopleEditText;
     private CheckBox mAdultCheck;
@@ -93,8 +92,8 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.peopleEditText) {
+            //show people detail fragment (in which user picks persons  )
             getFragmentManager().beginTransaction()
                     .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
                     .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
@@ -167,6 +166,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            //reset menu item
             case R.id.reset:
                 mAdultCheck.setChecked(false);
                 mYearSpinner.setSelection(0);
@@ -180,6 +180,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
                 utils.resetDiscoverData();
                 break;
 
+            // confirm menu item
             case R.id.done:
                 //Unselected Discover tab in navigation drawer ( static reference to MovieList isn't best idea)
                 MovieListActivity.drawerResult.setSelection(UNSELECTED);
