@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 
 
@@ -42,7 +43,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     private static final int FRAGMENT_COUNT = WATCHLIST_FRAGMENT + 1;
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
-
     public static Drawer.Result drawerResult;
 
     private FragmentManager fm;
@@ -50,12 +50,11 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         utils = PreferencesUtils.get(getApplicationContext());
 
         fm = getSupportFragmentManager();
@@ -199,10 +198,9 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 else
                     drawerResult.openDrawer();
                 return true;
-}
+        }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {

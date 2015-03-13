@@ -142,6 +142,8 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         superActivityToast.setTextColor(getResources().getColor(R.color.material_drawer_primary_text));
         superActivityToast.setOnClickWrapper(onClickWrapper);
         superActivityToast.show();
+
+        mDoneButton.show(true);
     }
 
     //toast listener
