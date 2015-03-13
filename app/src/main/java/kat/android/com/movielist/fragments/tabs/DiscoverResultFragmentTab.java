@@ -31,7 +31,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     private String vote;
     private Float voteGTE;
     private Float voteLTE;
-    private List<String> people;
+    private String people;
 
     private String year;
     private String release_order;
@@ -41,7 +41,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
         utils = PreferencesUtils.get(getActivity());
         getRequestParameters();
 
-        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, null, new Callback<MovieResponse>() {
+        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, people, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
                 movieList.addAll(movieResponse.getMovies());
@@ -129,6 +129,14 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
                 voteLTE = Float.valueOf(vote);
                 break;
         }
+
+        //people ID's
+        if (utils.getPersonsID() != null && utils.getPersonsID().length() > 0)
+            people = utils.getPersonsID();
+        else
+            people = null;
+
+
     }
 
     @Override

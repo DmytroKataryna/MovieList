@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+
 import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.PreferencesUtils;
@@ -42,6 +44,8 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
         //init years
         initYearArray();
+        //clear person data
+        utils.resetPersonsData();
     }
 
     @Override
@@ -113,12 +117,11 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
                 mRatingOrderSpinner.setSelection(0);
                 mPeopleEditText.setText("");
 
-                //people should be also cleared in preferences
+                //clear data in preferences
                 utils.resetDiscoverData();
                 break;
 
             case R.id.peopleEditText:
-
                 getFragmentManager().beginTransaction()
                         .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
                         .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
@@ -126,7 +129,6 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
                 break;
         }
     }
-
 
     //save data to preferences
     @Override
@@ -177,7 +179,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
             mSortSpinner.setSelection(utils.getSortOrderPos());
             mRatingSpinner.setSelection(utils.getVoteAvgPos());
             mRatingOrderSpinner.setSelection(utils.getVoteOrderPos());
-            mPeopleEditText.setText(" Restore ");
+            mPeopleEditText.setText(utils.getPersonsName());
         }
     }
 

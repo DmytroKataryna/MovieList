@@ -209,6 +209,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     public boolean onMenuItemActionExpand(MenuItem item) {
         return true;
     }
+
     //When search menu item closed , TabsFragment replace SearchFragment
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {

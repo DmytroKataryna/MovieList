@@ -54,6 +54,7 @@ public class PersonAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         Person person = persons.get(position);
 
         //profile image
