@@ -11,10 +11,12 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DISCOVER"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:gravity="center"
+            android:text="@string/discover"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FB8C00" />
     </LinearLayout>
 
     <LinearLayout
@@ -27,14 +29,17 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="bottom"
-            android:text=" Adult : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="@string/adult"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FB8C00" />
 
         <CheckBox
             android:id="@+id/adultCheckBox"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false" />
+            android:layout_height="match_parent"
+            android:button="@drawable/check_box_selector"
+            android:checked="false"
+            android:gravity="bottom" />
 
     </LinearLayout>
 
@@ -48,8 +53,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="bottom"
-            android:text=" Year :  "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:paddingBottom="5dp"
+            android:text="@string/year"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FB8C00" />
 
         <Spinner
             android:id="@+id/yearSpinner"
@@ -74,9 +81,11 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:gravity="bottom"
-            android:text=" Sort by :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="@string/sort"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FB8C00" />
 
         <Spinner
             android:id="@+id/sortBySpinner"
@@ -95,72 +104,51 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"
             android:gravity="bottom"
-            android:text=" Rating :"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:paddingTop="4dp"
+            android:text="@string/rating"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FB8C00" />
 
         <Spinner
             android:id="@+id/ratingSpinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="bottom"
             android:spinnerMode="dropdown" />
 
         <Spinner
             android:id="@+id/ratingOrderSpinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="45dp"
+        android:layout_height="120dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="bottom"
-            android:text=" People : "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:gravity="top"
+            android:paddingTop="3dp"
+            android:text="@string/people"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FB8C00" />
 
         <EditText
             android:id="@+id/peopleEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:focusable="false" />
+            android:focusable="false"
+            android:inputType="textNoSuggestions" />
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="right">
-
-        <Button
-            android:id="@+id/sendSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/resetButton"
-            android:layout_toEndOf="@+id/resetButton"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp" />
-
-        <Button
-            android:id="@+id/resetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RESET"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="99dp"
-            android:layout_marginStart="99dp" />
-
-    </RelativeLayout>
 
 </LinearLayout>

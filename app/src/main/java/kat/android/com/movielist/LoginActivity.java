@@ -2,6 +2,7 @@ package kat.android.com.movielist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,7 @@ import retrofit.client.Response;
 public class LoginActivity extends Activity implements View.OnClickListener {
 
     private EditText mLoginEditText, mPassEditText;
-    private Button mSend;
+    private Button mSend, mReg;
     private String mLogin, mPassword;
     private String mToken;
     private String mSession_ID;
@@ -40,7 +41,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mLoginEditText = (EditText) findViewById(R.id.loginText);
         mPassEditText = (EditText) findViewById(R.id.passText);
         mSend = (Button) findViewById(R.id.loginButton);
+        mReg = (Button) findViewById(R.id.regButton);
+
         mSend.setOnClickListener(this);
+        mReg.setOnClickListener(this);
     }
 
     @Override
@@ -76,11 +80,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.loginButton:
                 mLogin = mLoginEditText.getText().toString();
                 mPassword = mPassEditText.getText().toString();
                 //start a login chain requests
                 getLogin();
+                break;
+
+            case R.id.regButton:
+                String url = "https://www.themoviedb.org/account/signup";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 break;
         }
     }
@@ -160,7 +172,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                 startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
             }
 
             @Override
@@ -170,4 +181,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    //if user change mind and doesn't want login
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        utils.setGuest(true);
+        utils.setUserLogin(false);
+    }
 }

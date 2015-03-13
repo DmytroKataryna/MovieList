@@ -31,17 +31,18 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     private String vote;
     private Float voteGTE;
     private Float voteLTE;
-    private List<String> people;
+    private String people;
 
     private String year;
     private String release_order;
 
+    //HTTP GET discover (load discover data)
     @Override
     public void loadData(int page) {
         utils = PreferencesUtils.get(getActivity());
         getRequestParameters();
 
-        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, null, new Callback<MovieResponse>() {
+        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, people, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
                 movieList.addAll(movieResponse.getMovies());
@@ -57,6 +58,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     }
 
 
+    //transform data from utils to get parameters
     private void getRequestParameters() {
 
         adult = utils.isAdult();
@@ -129,6 +131,14 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
                 voteLTE = Float.valueOf(vote);
                 break;
         }
+
+        //people ID's
+        if (utils.getPersonsID() != null && utils.getPersonsID().length() > 0)
+            people = utils.getPersonsID();
+        else
+            people = null;
+
+
     }
 
     @Override
@@ -136,6 +146,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.search).setVisible(false);
         menu.findItem(R.id.done).setVisible(true);
+        menu.findItem(R.id.reset).setVisible(false);
     }
 
     @Override
@@ -145,6 +156,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
             //set position to discover tab (isn't best idea)
             MovieListActivity.drawerResult.setSelection(4);
 
+            //show discover menu fragment
             getFragmentManager().beginTransaction()
                     .hide(getFragmentManager().findFragmentById(R.id.fragment_discover_data_list))
                     .show(getFragmentManager().findFragmentById(R.id.fragment_discover))

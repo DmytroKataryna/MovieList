@@ -11,15 +11,13 @@
 
         <ImageView
             android:id="@+id/profileImage"
-            android:layout_width="0dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:src="@android:drawable/ic_menu_help" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -31,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Person Name"
+                    android:text="@string/personName"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFA726" />
 
@@ -44,7 +42,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     android:gravity="center"
-                    android:text="PopMark"
+                    android:text="@string/mark"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#FFA726" />
 
@@ -60,23 +58,25 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/LinearMovieLayout"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/movieNameTextFirst"
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
-                    android:text="Movie1"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:text="@string/movie1"
+                    android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/movieNameTextSecond"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Movie2"
-                    android:id="@+id/movieNameTextSecond" />
+                    android:text="@string/movie2"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
         </LinearLayout>

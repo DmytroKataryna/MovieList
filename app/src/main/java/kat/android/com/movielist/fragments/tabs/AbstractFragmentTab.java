@@ -30,10 +30,10 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     protected int currentPage = 1;
     protected int totalPages = 1;
 
-    List<Movie> movieList = new ArrayList<>();
-    SuperListview listView;
-    BaseAdapter adapter;
-    View view;
+    protected List<Movie> movieList = new ArrayList<>();
+    protected SuperListview listView;
+    protected BaseAdapter adapter;
+    protected View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +88,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         startActivity(i);
     }
 
+    //clear list and load first page
     private void loadFirstPage() {
         movieList.clear();
         currentPage = 1;
@@ -99,6 +100,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.search).setVisible(true);
         menu.findItem(R.id.done).setVisible(false);
+        menu.findItem(R.id.reset).setVisible(false);
     }
 
     public abstract void loadData(int page);

@@ -3,6 +3,9 @@ package kat.android.com.movielist.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PreferencesUtils {
 
     private static PreferencesUtils sUtils;
@@ -40,7 +43,7 @@ public class PreferencesUtils {
     private static final String KEY_DISCOVER_VOTE_AVERAGE_ORDER = "discoverVOTE_ORDER";
     private static final String KEY_DISCOVER_VOTE_AVERAGE_ORDER_POSITION = "discoverVOTE_ORDER_POS";
 
-    private static final String KEY_DISCOVER_PEOPLES = "discoverPEOPLE";
+    private static final String KEY_DISCOVER_PEOPLES_NAME = "discoverPEOPLE";
     private static final String KEY_DISCOVER_PEOPLES_ID = "discoverPEOPLE_ID";
 
 
@@ -161,7 +164,7 @@ public class PreferencesUtils {
     }
 
     public String getReleaseOrder() {
-        return sharedPref.getString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, null);
+        return sharedPref.getString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, "None");
     }
 
     public int getReleaseOrderPos() {
@@ -175,7 +178,7 @@ public class PreferencesUtils {
     }
 
     public String getSortOrder() {
-        return sharedPref.getString(KEY_DISCOVER_SORT_BY, null);
+        return sharedPref.getString(KEY_DISCOVER_SORT_BY, "None");
     }
 
     public int getSortOrderPos() {
@@ -204,7 +207,7 @@ public class PreferencesUtils {
     }
 
     public String getVoteOrder() {
-        return sharedPref.getString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, null);
+        return sharedPref.getString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, "None");
     }
 
     public int getVoteOrderPos() {
@@ -212,9 +215,33 @@ public class PreferencesUtils {
     }
 
     //***********
+    public void savePerson(String personName, int personID) {
+        //add person name
+        Set<String> setName = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_NAME, new HashSet<String>());
+        setName.add(personName);
+        sharedPref.edit().putStringSet(KEY_DISCOVER_PEOPLES_NAME, setName).apply();
 
+        //add person id
+        Set<String> setID = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_ID, new HashSet<String>());
+        setID.add(String.valueOf(personID));
+        sharedPref.edit().putStringSet(KEY_DISCOVER_PEOPLES_ID, setID).apply();
+    }
 
-    //people pref , should be KeyMap
+    public String getPersonsName() {
+        Set<String> nameSet = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_NAME, new HashSet<String>());
+        StringBuilder result = new StringBuilder();
+        for (String name : nameSet)
+            result.append(name).append(",");
+        return result.toString();
+    }
+
+    public String getPersonsID() {
+        Set<String> idSet = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_ID, new HashSet<String>());
+        StringBuilder result = new StringBuilder();
+        for (String id : idSet)
+            result.append(id).append(",");
+        return result.toString();
+    }
 
     public void resetDiscoverData() {
         sharedPref.edit().putBoolean(KEY_DISCOVER_ADULT, false)
@@ -223,7 +250,29 @@ public class PreferencesUtils {
                 .putString(KEY_DISCOVER_SORT_BY, null)
                 .putString(KEY_DISCOVER_VOTE_AVERAGE, null)
                 .putString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, null)
+                .putStringSet(KEY_DISCOVER_PEOPLES_NAME, null)
+                .putStringSet(KEY_DISCOVER_PEOPLES_ID, null)
                 .apply();
+    }
+
+    public void resetPersonsData() {
+        sharedPref.edit()
+                .putStringSet(KEY_DISCOVER_PEOPLES_NAME, null)
+                .putStringSet(KEY_DISCOVER_PEOPLES_ID, null)
+                .apply();
+    }
+
+    //delete user from prefs
+    public void deletePerson(String personName, int personID) {
+        //delete person name
+        Set<String> setName = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_NAME, new HashSet<String>());
+        setName.remove(personName);
+        sharedPref.edit().putStringSet(KEY_DISCOVER_PEOPLES_NAME, setName).apply();
+
+        //delete person id
+        Set<String> setID = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_ID, new HashSet<String>());
+        setID.remove(String.valueOf(personID));
+        sharedPref.edit().putStringSet(KEY_DISCOVER_PEOPLES_ID, setID).apply();
     }
 
 }

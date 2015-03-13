@@ -40,6 +40,7 @@ public class SearchFragmentTab extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        //search view init and modify
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -64,7 +65,7 @@ public class SearchFragmentTab extends ListFragment {
     }
 
 
-    //GET REQUEST
+    //GET REQUEST (return search data)
     public void searchMovies(String movieName) {
 
         RestClient.get().searchMovies(movieName, new Callback<MovieResponse>() {
