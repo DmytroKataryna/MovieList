@@ -47,7 +47,7 @@ public class PersonAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.imageView = (ImageView) convertView.findViewById(R.id.profileImage);
             holder.personName = (TextView) convertView.findViewById(R.id.personNameTextView);
-            holder.popularityMark = (TextView) convertView.findViewById(R.id.popularityTextView);
+            holder.mark = (TextView) convertView.findViewById(R.id.popularityTextView);
             holder.knownMovieFirst = (TextView) convertView.findViewById(R.id.movieNameTextFirst);
             holder.knownMovieSecond = (TextView) convertView.findViewById(R.id.movieNameTextSecond);
             convertView.setTag(holder);
@@ -64,9 +64,9 @@ public class PersonAdapter extends BaseAdapter {
             Picasso.with(context).load("https://image.tmdb.org/t/p/w130" + person.getProfile_path()).into(holder.imageView);
 
         holder.personName.setText(person.getName());
-        holder.popularityMark.setText((int) person.getPopularity() + "");
+        holder.mark.setText((int) person.getPopularity() + "");
 
-        //know for movies
+        //person know for movies
         if (person.getKnown_for().size() > 1) {
             holder.knownMovieFirst.setText(person.getKnown_for().get(0).getTitle());
             holder.knownMovieSecond.setText(person.getKnown_for().get(1).getTitle());
@@ -79,7 +79,7 @@ public class PersonAdapter extends BaseAdapter {
     static class ViewHolder {
         ImageView imageView;
         TextView personName;
-        TextView popularityMark;
+        TextView mark;
         TextView knownMovieFirst;
         TextView knownMovieSecond;
     }

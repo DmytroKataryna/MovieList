@@ -36,6 +36,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     private String year;
     private String release_order;
 
+    //HTTP GET discover (load discover data)
     @Override
     public void loadData(int page) {
         utils = PreferencesUtils.get(getActivity());
@@ -57,6 +58,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     }
 
 
+    //transform data from utils to get parameters
     private void getRequestParameters() {
 
         adult = utils.isAdult();
@@ -154,6 +156,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
             //set position to discover tab (isn't best idea)
             MovieListActivity.drawerResult.setSelection(4);
 
+            //show discover menu fragment
             getFragmentManager().beginTransaction()
                     .hide(getFragmentManager().findFragmentById(R.id.fragment_discover_data_list))
                     .show(getFragmentManager().findFragmentById(R.id.fragment_discover))

@@ -45,6 +45,7 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //hide action bar
         ((MovieListActivity) getActivity()).getSupportActionBar().hide();
         utils = PreferencesUtils.get(getActivity());
         setRetainInstance(true);
@@ -89,7 +90,7 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         return v;
     }
 
-    //GET REQUEST
+    //GET REQUEST (return person data)
     public void searchPerson(String personName) {
 
         RestClient.get().getPerson(personName, new Callback<PersonResult>() {
@@ -143,6 +144,7 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         superActivityToast.show();
     }
 
+    //toast listener
     OnClickWrapper onClickWrapper = new OnClickWrapper("superToast", new SuperToast.OnClickListener() {
         @Override
         public void onClick(View view, Parcelable parcelable) {

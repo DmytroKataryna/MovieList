@@ -2,10 +2,8 @@ package kat.android.com.movielist.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class PreferencesUtils {
@@ -266,12 +264,12 @@ public class PreferencesUtils {
 
     //delete user from prefs
     public void deletePerson(String personName, int personID) {
-        //add person name
+        //delete person name
         Set<String> setName = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_NAME, new HashSet<String>());
         setName.remove(personName);
         sharedPref.edit().putStringSet(KEY_DISCOVER_PEOPLES_NAME, setName).apply();
 
-        //add person id
+        //delete person id
         Set<String> setID = sharedPref.getStringSet(KEY_DISCOVER_PEOPLES_ID, new HashSet<String>());
         setID.remove(String.valueOf(personID));
         sharedPref.edit().putStringSet(KEY_DISCOVER_PEOPLES_ID, setID).apply();
