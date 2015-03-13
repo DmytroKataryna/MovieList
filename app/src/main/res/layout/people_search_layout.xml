@@ -27,7 +27,7 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="71dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_action_done"
+            android:src="@drawable/ic_action_done_white"
             fab:fab_colorNormal="@color/material_drawer_selected_text"
             fab:fab_colorPressed="@color/person_selected_background_color" />
     </FrameLayout>

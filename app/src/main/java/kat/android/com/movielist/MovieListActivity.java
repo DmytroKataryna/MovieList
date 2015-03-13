@@ -47,9 +47,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 
     public static Drawer.Result drawerResult;
-
     private FragmentManager fm;
-
     protected SearchView searchView;
 
     @Override
@@ -168,6 +166,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tabs, menu);
 
+        //configuring search View
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -194,7 +193,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 return true;
 
             case android.R.id.home:
-                //home button listener
+                //home button listener (close/open navigation drawer)
                 if (drawerResult.isDrawerOpen())
                     drawerResult.closeDrawer();
                 else

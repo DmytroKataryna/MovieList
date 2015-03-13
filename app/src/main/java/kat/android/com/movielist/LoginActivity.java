@@ -160,7 +160,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                 startActivity(new Intent(getApplicationContext(), MovieListActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
             }
 
             @Override
@@ -170,4 +169,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        utils.setGuest(true);
+        utils.setUserLogin(false);
+    }
 }

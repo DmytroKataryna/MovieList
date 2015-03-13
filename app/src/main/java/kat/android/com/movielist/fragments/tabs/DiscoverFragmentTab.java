@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +30,6 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     private PreferencesUtils utils;
 
     private Spinner mYearSpinner, mSortSpinner, mYearOrderSpinner, mRatingSpinner, mRatingOrderSpinner;
-    private Button sendSearch, resetButton;
     private EditText mPeopleEditText;
     private CheckBox mAdultCheck;
 
@@ -40,6 +41,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         utils = PreferencesUtils.get(getActivity());
 
         //init years
@@ -64,11 +66,6 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
         mRatingOrderSpinner.setOnItemSelectedListener(this);
         mRatingSpinner = (Spinner) v.findViewById(R.id.ratingSpinner);
         mRatingSpinner.setOnItemSelectedListener(this);
-
-        sendSearch = (Button) v.findViewById(R.id.sendSearch);
-        sendSearch.setOnClickListener(this);
-        resetButton = (Button) v.findViewById(R.id.resetButton);
-        resetButton.setOnClickListener(this);
 
         mPeopleEditText = (EditText) v.findViewById(R.id.peopleEditText);
         mPeopleEditText.setOnClickListener(this);
@@ -97,40 +94,15 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.sendSearch:
-                //Unselected Discover tab in navigation drawer ( static reference to MovieList isn't best idea)
-                MovieListActivity.drawerResult.setSelection(UNSELECTED);
-
-                getFragmentManager().beginTransaction()
-                        .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
-                        .replace(R.id.fragment_discover_data_list, new DiscoverResultFragmentTab())
-                        .commit();
-                break;
-
-            case R.id.resetButton:
-                mAdultCheck.setChecked(false);
-                mYearSpinner.setSelection(0);
-                mYearOrderSpinner.setSelection(0);
-                mSortSpinner.setSelection(0);
-                mRatingSpinner.setSelection(0);
-                mRatingOrderSpinner.setSelection(0);
-                mPeopleEditText.setText("");
-
-                //clear data in preferences
-                utils.resetDiscoverData();
-                break;
-
-            case R.id.peopleEditText:
-                getFragmentManager().beginTransaction()
-                        .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
-                        .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
-                        .commit();
-                break;
+        if (v.getId() == R.id.peopleEditText) {
+            getFragmentManager().beginTransaction()
+                    .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
+                    .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
+                    .commit();
         }
     }
 
-    //save data to preferences
+    //spinner listener . storage data to preferences
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
@@ -181,6 +153,44 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
             mRatingOrderSpinner.setSelection(utils.getVoteOrderPos());
             mPeopleEditText.setText(utils.getPersonsName());
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.search).setVisible(false);
+        menu.findItem(R.id.done).setVisible(true);
+        menu.findItem(R.id.reset).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.reset:
+                mAdultCheck.setChecked(false);
+                mYearSpinner.setSelection(0);
+                mYearOrderSpinner.setSelection(0);
+                mSortSpinner.setSelection(0);
+                mRatingSpinner.setSelection(0);
+                mRatingOrderSpinner.setSelection(0);
+                mPeopleEditText.setText("");
+
+                //clear data in preferences
+                utils.resetDiscoverData();
+                break;
+
+            case R.id.done:
+                //Unselected Discover tab in navigation drawer ( static reference to MovieList isn't best idea)
+                MovieListActivity.drawerResult.setSelection(UNSELECTED);
+
+                getFragmentManager().beginTransaction()
+                        .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
+                        .replace(R.id.fragment_discover_data_list, new DiscoverResultFragmentTab())
+                        .commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //init array which contains strings (years from 2015 till 1910) and first elem "None"

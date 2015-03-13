@@ -166,7 +166,7 @@ public class PreferencesUtils {
     }
 
     public String getReleaseOrder() {
-        return sharedPref.getString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, null);
+        return sharedPref.getString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR_ORDER, "None");
     }
 
     public int getReleaseOrderPos() {
@@ -180,7 +180,7 @@ public class PreferencesUtils {
     }
 
     public String getSortOrder() {
-        return sharedPref.getString(KEY_DISCOVER_SORT_BY, null);
+        return sharedPref.getString(KEY_DISCOVER_SORT_BY, "None");
     }
 
     public int getSortOrderPos() {
@@ -209,7 +209,7 @@ public class PreferencesUtils {
     }
 
     public String getVoteOrder() {
-        return sharedPref.getString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, null);
+        return sharedPref.getString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, "None");
     }
 
     public int getVoteOrderPos() {

@@ -144,6 +144,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.search).setVisible(false);
         menu.findItem(R.id.done).setVisible(true);
+        menu.findItem(R.id.reset).setVisible(false);
     }
 
     @Override

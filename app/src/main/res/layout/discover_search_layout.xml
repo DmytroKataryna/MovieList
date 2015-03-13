@@ -127,7 +127,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:orientation="horizontal">
 
         <TextView
@@ -150,35 +150,5 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="right">
-
-        <Button
-            android:id="@+id/sendSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_toEndOf="@+id/resetButton"
-            android:layout_toRightOf="@+id/resetButton"
-            android:text="Search"
-            android:textColor="#FB8C00" />
-
-        <Button
-            android:id="@+id/resetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="99dp"
-            android:layout_marginStart="99dp"
-            android:text="RESET"
-            android:textColor="#FB8C00" />
-
-    </RelativeLayout>
 
 </LinearLayout>

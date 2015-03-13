@@ -30,7 +30,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class PeopleFragmentTab extends ListFragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class PeopleFragmentTab extends ListFragment implements View.OnClickListener {
 
     private String personName;
     private int personId;
@@ -49,8 +49,6 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         utils = PreferencesUtils.get(getActivity());
         setRetainInstance(true);
         setHasOptionsMenu(true);
-
-
     }
 
     @Override
@@ -63,18 +61,33 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         mDoneButton.setOnClickListener(this);
 
         mSearchView = (SearchView) v.findViewById(R.id.peopleSearchView);
+        //change searchView line color
+        int searchPlate = getResources().getIdentifier("android:id/search_plate", null, null);
+        mSearchView.findViewById(searchPlate).setBackgroundResource(R.drawable.texfield_searchview_holo_light);
+
         mSearchView.setQueryHint("Search...");
         mSearchView.setFocusable(true);
         mSearchView.setIconified(false);
-        mSearchView.setOnQueryTextListener(this);
 
-        //change searchView line color
-        int linlayId = getResources().getIdentifier("android:id/search_plate", null, null);
-        mSearchView.findViewById(linlayId).setBackgroundResource(R.drawable.texfield_searchview_holo_light);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() > 0)
+                    searchPerson(newText);
+
+                if (newText.length() == 0)
+                    setListAdapter(null);
+                return true;
+            }
+        });
 
         return v;
     }
-
 
     //GET REQUEST
     public void searchPerson(String personName) {
@@ -93,13 +106,12 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         });
     }
 
-    //onItemClick
-
+    //on Floating Button listener
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab) {
             //close toast before redirection to Discover fragment
-            if (superActivityToast.isShowing())
+            if (superActivityToast != null && superActivityToast.isShowing())
                 superActivityToast.dismiss();
 
             getFragmentManager().beginTransaction()
@@ -110,34 +122,15 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
     }
 
     @Override
-    public boolean onQueryTextSubmit(String s) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String text) {
-        if (text.length() > 0)
-            searchPerson(text);
-
-        if (text.length() == 0)
-            setListAdapter(null);
-        return true;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ((MovieListActivity) getActivity()).getSupportActionBar().show();
-    }
-
-    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-
         personName = searchResultMovies.get(position).getName();
         personId = searchResultMovies.get(position).getId();
-
         //save person to utils
         utils.savePerson(personName, personId);
+
+        //close previous toast if it is shown
+        if (superActivityToast != null && superActivityToast.isShowing())
+            superActivityToast.dismiss();
 
         //toast
         superActivityToast = new SuperActivityToast(getActivity(), SuperToast.Type.BUTTON);
@@ -148,18 +141,20 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         superActivityToast.setTextColor(getResources().getColor(R.color.material_drawer_primary_text));
         superActivityToast.setOnClickWrapper(onClickWrapper);
         superActivityToast.show();
-
-
     }
 
     OnClickWrapper onClickWrapper = new OnClickWrapper("superToast", new SuperToast.OnClickListener() {
         @Override
         public void onClick(View view, Parcelable parcelable) {
             Log.d("PERSON", "UNDO CLICK");
-            //delete person from preferences
+            //delete person from preferences if user click on Undo Button
             utils.deletePerson(personName, personId);
-
-
         }
     });
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MovieListActivity) getActivity()).getSupportActionBar().show();
+    }
 }

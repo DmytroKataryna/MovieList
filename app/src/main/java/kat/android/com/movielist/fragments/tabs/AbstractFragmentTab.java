@@ -99,6 +99,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.search).setVisible(true);
         menu.findItem(R.id.done).setVisible(false);
+        menu.findItem(R.id.reset).setVisible(false);
     }
 
     public abstract void loadData(int page);

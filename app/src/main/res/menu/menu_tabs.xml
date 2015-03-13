@@ -11,10 +11,18 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
+        android:id="@+id/reset"
+        android:icon="@drawable/icon_dark_refresh"
+        android:title="Refresh"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/done"
-        android:icon="@android:drawable/stat_sys_upload_done"
+        android:icon="@drawable/ic_action_done_white"
         android:title="Done"
         android:visible="false"
         app:showAsAction="ifRoom" />
+
 
 </menu>
