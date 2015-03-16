@@ -1,13 +1,16 @@
 package kat.android.com.movielist.fragments.tabs;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -50,6 +53,21 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         utils = PreferencesUtils.get(getActivity());
         setRetainInstance(true);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //hide soft keyboard when user click on ListView
+        getListView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -160,5 +178,11 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
         ((MovieListActivity) getActivity()).getSupportActionBar().show();
+    }
+
+    //keyboard
+    protected void hideKeyboard(View view) {
+        InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

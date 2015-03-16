@@ -34,7 +34,6 @@ import retrofit.client.Response;
 public class MovieDetailsFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
 
     private int id;
-    // private boolean guest;
     private boolean favorite;
     private boolean watchList;
     private float rating;
@@ -206,10 +205,12 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     //change movie watchlist state
     private void movieWatchListChange(boolean state) {
+        String s = utils.getSessionID();
         Log.d("WATCHLIST LOG", "STATE " + state);
         RestClient.get().addMovieToWatchList(utils.getSessionUserID(), utils.getSessionID(), new WatchList("movie", id, state), new Callback<Status>() {
             @Override
             public void success(Status status, Response response) {
+                boolean temp = watchList;
                 Log.d(DetailActivity.TAG, "WatchList " + status.getStatus_message());
             }
 

@@ -1,5 +1,6 @@
 package kat.android.com.movielist.fragments.tabs;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -9,7 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
 import java.util.List;
@@ -29,11 +32,26 @@ public class SearchFragmentTab extends ListFragment {
     private List<Movie> searchResultMovies;
     private SearchView searchView;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //hide soft keyboard when user click on ListView
+        getListView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -87,5 +105,11 @@ public class SearchFragmentTab extends ListFragment {
         Intent i = new Intent(getActivity(), DetailActivity.class)
                 .putExtra("KEY", searchResultMovies.get(position).getId());
         startActivity(i);
+    }
+
+    //keyboard
+    protected void hideKeyboard(View view) {
+        InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

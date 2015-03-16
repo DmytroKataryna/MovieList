@@ -40,6 +40,11 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         loadFirstPage();
     }
 

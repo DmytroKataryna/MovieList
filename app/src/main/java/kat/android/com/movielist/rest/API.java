@@ -122,10 +122,6 @@ public interface API {
     @GET("/authentication/guest_session/new" + API_KEY)
     void getGuestSession(Callback<GuestSession> callback);
 
-    //Discover get request
-//    @GET("/discover/movie" + API_KEY)
-//    void getDiscoverMovies(@QueryMap Map<String, String> map, Callback<MovieResponse> callback);
-
     //better use QueryMap
     @GET("/discover/movie" + API_KEY)
     void getDiscoverMovies(@Query("include_adult") boolean adult,
