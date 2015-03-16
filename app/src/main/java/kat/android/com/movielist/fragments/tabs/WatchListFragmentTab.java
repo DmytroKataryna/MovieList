@@ -40,7 +40,9 @@ public class WatchListFragmentTab extends AbstractFragmentTab {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden)
+        if (!hidden) {
             ((MovieListActivity) getActivity()).getSupportActionBar().setTitle("WatchList");
+            loadFirstPage();
+        }
     }
 }

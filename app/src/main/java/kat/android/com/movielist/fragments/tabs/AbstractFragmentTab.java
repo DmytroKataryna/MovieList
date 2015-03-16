@@ -89,7 +89,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     }
 
     //clear list and load first page
-    private void loadFirstPage() {
+    protected void loadFirstPage() {
         movieList.clear();
         currentPage = 1;
         loadData(currentPage);
