@@ -165,4 +165,6 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

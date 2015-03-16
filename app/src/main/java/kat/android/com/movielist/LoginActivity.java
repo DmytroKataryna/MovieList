@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.johnpersano.supertoasts.SuperActivityToast;
+import com.github.johnpersano.supertoasts.SuperToast;
+
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
@@ -142,7 +145,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(), "auth failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "please enter correct credentials", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -4,6 +4,7 @@ package kat.android.com.movielist.fragments.tabs;
 import android.util.Log;
 
 import kat.android.com.movielist.DetailActivity;
+import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import retrofit.Callback;
@@ -32,10 +33,9 @@ public class TopRatedFragmentTab extends AbstractFragmentTab {
     }
 
 
-//    @Override
-//    public void onPrepareOptionsMenu(Menu menu) {
-//        super.onPrepareOptionsMenu(menu);
-//        menu.findItem(R.id.txt).setVisible(false);
-//        menu.add("XXz");
-//    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ((MovieListActivity) getActivity()).getSupportActionBar().setTitle("Top Rated");
+    }
 }

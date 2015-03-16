@@ -135,7 +135,7 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
 
         //toast
         superActivityToast = new SuperActivityToast(getActivity(), SuperToast.Type.BUTTON);
-        superActivityToast.setDuration(SuperToast.Duration.VERY_SHORT);
+        superActivityToast.setDuration(SuperToast.Duration.SHORT);
         superActivityToast.setText(searchResultMovies.get(position).getName() + " Added");
         superActivityToast.setButtonIcon(SuperToast.Icon.Dark.UNDO, "UNDO");
         superActivityToast.setButtonTextColor(getResources().getColor(R.color.material_drawer_primary_text));
@@ -143,6 +143,7 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
         superActivityToast.setOnClickWrapper(onClickWrapper);
         superActivityToast.show();
 
+        //when user selects a person , Done Button should be visible
         mDoneButton.show(true);
     }
 
@@ -150,7 +151,6 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
     OnClickWrapper onClickWrapper = new OnClickWrapper("superToast", new SuperToast.OnClickListener() {
         @Override
         public void onClick(View view, Parcelable parcelable) {
-            Log.d("PERSON", "UNDO CLICK");
             //delete person from preferences if user click on Undo Button
             utils.deletePerson(personName, personId);
         }

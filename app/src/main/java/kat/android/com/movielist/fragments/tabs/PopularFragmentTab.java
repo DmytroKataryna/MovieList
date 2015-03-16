@@ -3,6 +3,7 @@ package kat.android.com.movielist.fragments.tabs;
 import android.util.Log;
 
 import kat.android.com.movielist.DetailActivity;
+import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import retrofit.Callback;
@@ -28,5 +29,11 @@ public class PopularFragmentTab extends AbstractFragmentTab {
                 Log.d(DetailActivity.TAG, "An error occurred while downloading popular movies list.");
             }
         });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ((MovieListActivity) getActivity()).getSupportActionBar().setTitle("Popular");
     }
 }

@@ -55,6 +55,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
         setContentView(R.layout.activity_tabs);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Popular");
         utils = PreferencesUtils.get(getApplicationContext());
 
         fm = getSupportFragmentManager();

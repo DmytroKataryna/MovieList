@@ -34,7 +34,6 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
     private String years[] = new String[99];
     private static final int CURRENT_YEAR = 2015;
-    private static final int UNSELECTED = 99;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,6 +143,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
         super.onHiddenChanged(hidden);
         //restore discover data from preferences
         if (!hidden) {
+            ((MovieListActivity) getActivity()).getSupportActionBar().setTitle("Discover");
             mAdultCheck.setChecked(utils.isAdult());
             mYearSpinner.setSelection(utils.getReleaseYearPos());
             mYearOrderSpinner.setSelection(utils.getReleaseOrderPos());
@@ -182,9 +182,6 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
             // confirm menu item
             case R.id.done:
-                //Unselected Discover tab in navigation drawer ( static reference to MovieList isn't best idea)
-                MovieListActivity.drawerResult.setSelection(UNSELECTED);
-
                 getFragmentManager().beginTransaction()
                         .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
                         .replace(R.id.fragment_discover_data_list, new DiscoverResultFragmentTab())

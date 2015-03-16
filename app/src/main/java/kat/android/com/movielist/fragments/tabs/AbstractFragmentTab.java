@@ -104,4 +104,5 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     }
 
     public abstract void loadData(int page);
+
 }

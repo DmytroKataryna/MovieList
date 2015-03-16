@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import kat.android.com.movielist.DetailActivity;
+import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
@@ -35,5 +36,11 @@ public class WatchListFragmentTab extends AbstractFragmentTab {
                 Log.d(DetailActivity.TAG, "An error occurred while downloading favorites movies list.");
             }
         });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden)
+            ((MovieListActivity) getActivity()).getSupportActionBar().setTitle("WatchList");
     }
 }
