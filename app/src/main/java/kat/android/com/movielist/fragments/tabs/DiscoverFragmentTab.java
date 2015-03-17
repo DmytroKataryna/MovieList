@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import kat.android.com.movielist.MovieListActivity;
@@ -26,6 +27,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     private Spinner mYearSpinner, mSortSpinner, mYearOrderSpinner, mRatingSpinner, mRatingOrderSpinner, mGenresSpinner;
     private EditText mPeopleEditText;
     private CheckBox mAdultCheck;
+    private ImageButton mResetPeopleButton;
 
     private String years[] = new String[99];
     private static final int CURRENT_YEAR = 2016;
@@ -64,6 +66,8 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
         mPeopleEditText = (EditText) v.findViewById(R.id.peopleEditText);
         mPeopleEditText.setOnClickListener(this);
+        mResetPeopleButton = (ImageButton) v.findViewById(R.id.imagePeopleButton);
+        mResetPeopleButton.setOnClickListener(this);
 
         ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
         yearsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -92,12 +96,18 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.peopleEditText) {
-            //show people detail fragment (in which user picks persons  )
-            getFragmentManager().beginTransaction()
-                    .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
-                    .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
-                    .commit();
+        switch (v.getId()) {
+            case R.id.peopleEditText:
+                //show people detail fragment (in which user picks persons  )
+                getFragmentManager().beginTransaction()
+                        .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
+                        .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
+                        .commit();
+                break;
+            case R.id.imagePeopleButton:
+                utils.resetPersonsData();
+                mPeopleEditText.setText("");
+                break;
         }
     }
 

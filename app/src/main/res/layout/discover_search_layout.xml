@@ -172,6 +172,14 @@
             android:focusable="false"
             android:inputType="textNoSuggestions" />
 
+        <ImageButton
+            android:id="@+id/imagePeopleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/button_holo_light_orange"
+            android:src="@drawable/abc_ic_clear_mtrl_alpha" />
+
     </LinearLayout>
 
 
