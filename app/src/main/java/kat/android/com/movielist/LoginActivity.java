@@ -10,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.github.johnpersano.supertoasts.SuperActivityToast;
-import com.github.johnpersano.supertoasts.SuperToast;
-
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
@@ -123,8 +120,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         RestClient.get().getToken(new Callback<Token>() {
             @Override
             public void success(Token token, Response response) {
-                mToken = token.getRequest_token();
-                userAuthentication();
+                //mToken = token.getRequest_token();
+                userAuthentication(token.getRequest_token());
             }
 
             @Override
@@ -135,12 +132,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     //authentication
-    private void userAuthentication() {
-        RestClient.get().getAuthentication(mToken, mLogin, mPassword, new Callback<Token>() {
+    private void userAuthentication(String token) {
+        RestClient.get().getAuthentication(token, mLogin, mPassword, new Callback<Token>() {
             @Override
             public void success(Token token, Response response) {
-                mToken = token.getRequest_token();
-                getSession();
+                getSession(token.getRequest_token());
             }
 
             @Override
@@ -151,8 +147,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     //session
-    private void getSession() {
-        RestClient.get().getSession(mToken, new Callback<Session>() {
+    private void getSession(String token) {
+        RestClient.get().getSession(token, new Callback<Session>() {
             @Override
             public void success(Session session, Response response) {
                 mSession_ID = session.getSession_id();

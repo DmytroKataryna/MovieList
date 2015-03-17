@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 
-
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -124,13 +123,12 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 }).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View view) {
+                        drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(utils.isGuest()), 6);
+                        drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(utils.isGuest()), 7);
+
                         if (utils.isGuest()) {
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(false), 6);
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(false), 7);
                             drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login).withIcon(FontAwesome.Icon.faw_sign_in), 9);
                         } else {
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(true), 6);
-                            drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(true), 7);
                             drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withIcon(FontAwesome.Icon.faw_sign_out), 9);
                         }
                     }

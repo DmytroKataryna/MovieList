@@ -28,7 +28,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     private CheckBox mAdultCheck;
 
     private String years[] = new String[99];
-    private static final int CURRENT_YEAR = 2015;
+    private static final int CURRENT_YEAR = 2016;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
