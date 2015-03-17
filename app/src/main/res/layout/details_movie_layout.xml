@@ -172,8 +172,17 @@
                 style="@style/TwoWayView"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginBottom="3dp"
+                android:drawSelectorOnTop="false" />
+
+            <org.lucasr.twowayview.TwoWayView
+                android:id="@+id/castLvItems"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="3dp"
                 android:drawSelectorOnTop="false"
-                android:layout_marginBottom="3dp" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
