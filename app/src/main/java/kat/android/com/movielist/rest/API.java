@@ -1,6 +1,7 @@
 package kat.android.com.movielist.rest;
 
 
+import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
 import kat.android.com.movielist.rest.pojo.person.PersonResult;
@@ -145,6 +146,11 @@ public interface API {
     @GET("/person/popular" + API_KEY)
     void getPopularPerson(@Query("page") int page,
                           Callback<PersonResult> callback);
+
+
+    //movie images
+    @GET("/movie/{id}/images" + API_KEY)
+    void getMovieImages(@Path("id") int id, Callback<Image> callback);
 
 
 }

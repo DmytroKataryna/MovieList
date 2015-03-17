@@ -31,6 +31,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
 
+    compile 'org.lucasr.twowayview:twowayview:0.1.4'
+
     compile('com.mikepenz.materialdrawer:library:0.9.5@aar') {
         transitive = true
     }
