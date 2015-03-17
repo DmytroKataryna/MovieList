@@ -289,6 +289,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             public void success(Credits credits, Response response) {
                 cast = credits.getCast();
                 castListView.setAdapter(new CastAdapter(getActivity(), cast));
+
+                if (cast.size() == 0) castListView.setVisibility(View.GONE);
             }
 
             @Override

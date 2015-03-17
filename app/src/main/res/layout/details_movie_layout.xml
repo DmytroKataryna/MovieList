@@ -7,6 +7,7 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
+        android:padding="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -173,7 +174,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginBottom="3dp"
-                android:drawSelectorOnTop="false" />
+                android:drawSelectorOnTop="false"
+                android:focusable="false"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,6 +205,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cast"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#FB8C00" />
 
                 <org.lucasr.twowayview.TwoWayView
                     android:id="@+id/castLvItems"
