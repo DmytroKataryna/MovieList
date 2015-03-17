@@ -15,6 +15,13 @@ import retrofit.client.Response;
 
 public class WatchListFragmentTab extends AbstractFragmentTab {
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFirstPage();
+    }
+
     //load first page of favorite movies
     public void loadData(int page) {
 

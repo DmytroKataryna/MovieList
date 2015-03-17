@@ -11,6 +11,7 @@
         superlistview:superlv__listClipToPadding="false"
         superlistview:superlv__listDivider="@android:color/transparent"
         superlistview:superlv__listDividerHeight="10dp"
+        superlistview:superlv__empty="@layout/emptyview"
         superlistview:superlv__listPadding="10dp"
         superlistview:superlv__scrollbarStyle="outsideOverlay" />
 

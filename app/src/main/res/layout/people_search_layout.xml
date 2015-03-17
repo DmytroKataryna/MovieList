@@ -15,10 +15,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <ListView
-            android:id="@id/android:list"
+        <com.quentindommerc.superlistview.SuperListview xmlns:superlistview="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/listPeoples"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            superlistview:superlv__empty="@layout/emptyview"
+            superlistview:superlv__listClipToPadding="false"
+            superlistview:superlv__listDivider="@android:color/transparent"
+            superlistview:superlv__listDividerHeight="10dp"
+            superlistview:superlv__listPadding="10dp"
+            superlistview:superlv__scrollbarStyle="outsideOverlay" />
+
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
