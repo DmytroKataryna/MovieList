@@ -58,7 +58,6 @@ public class PeopleFragmentTab extends ListFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-
         //hide soft keyboard when user click on ListView
         getListView().setOnTouchListener(new View.OnTouchListener() {
             @Override

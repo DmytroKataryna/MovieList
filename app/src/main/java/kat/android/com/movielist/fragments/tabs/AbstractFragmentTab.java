@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
@@ -22,6 +21,7 @@ import java.util.List;
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.MovieAdapter;
+import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.pojo.movie.Movie;
 
 
@@ -30,6 +30,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     protected int currentPage = 1;
     protected int totalPages = 1;
 
+    protected PreferencesUtils utils;
     protected List<Movie> movieList = new ArrayList<>();
     protected SuperListview listView;
     protected BaseAdapter adapter;
@@ -38,6 +39,7 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        utils = PreferencesUtils.get(getActivity());
         setRetainInstance(true);
         setHasOptionsMenu(true);
     }

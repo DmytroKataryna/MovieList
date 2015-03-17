@@ -3,16 +3,11 @@ package kat.android.com.movielist.fragments.tabs;
 
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.R;
-import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import retrofit.Callback;
@@ -20,8 +15,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class DiscoverResultFragmentTab extends AbstractFragmentTab {
-
-    private PreferencesUtils utils;
 
     private boolean adult;
     private String release_year;
@@ -39,7 +32,6 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     //HTTP GET discover (load discover data)
     @Override
     public void loadData(int page) {
-        utils = PreferencesUtils.get(getActivity());
         getRequestParameters();
 
         RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, people, new Callback<MovieResponse>() {
@@ -153,7 +145,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.done) {
-            //set position to discover tab (isn't best idea)
+            //set position to discover tab (isn't best idea use static reference to another activity )
             MovieListActivity.drawerResult.setSelection(4);
 
             //show discover menu fragment

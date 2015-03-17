@@ -32,7 +32,7 @@ public class TopRatedFragmentTab extends AbstractFragmentTab {
         });
     }
 
-
+    //on hide/show fragment listener
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden)

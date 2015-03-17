@@ -53,7 +53,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         id = getArguments().getInt(DetailActivity.ID_KEY);
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getActivity());
-        //guest = utils.isGuest();
+
     }
 
     @Nullable
@@ -117,7 +117,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 if (data.getHomepage() != null && data.getHomepage().length() != 0) {
                     mHomePage.setText(Html.fromHtml("<font color=#FB8C00>Homepage :</font>" + (" <br/>") + data.getHomepage()));
                 }
-                //if guest session -> didn't upload favorite/rating/watchlist info
+                //if guest session  ->then  didn't upload favorite/rating/watchlist info
                 if (!utils.isGuest())
                     loadMovieAccountStateInformation();
             }
@@ -205,12 +205,9 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
     //change movie watchlist state
     private void movieWatchListChange(boolean state) {
-        String s = utils.getSessionID();
-        Log.d("WATCHLIST LOG", "STATE " + state);
         RestClient.get().addMovieToWatchList(utils.getSessionUserID(), utils.getSessionID(), new WatchList("movie", id, state), new Callback<Status>() {
             @Override
             public void success(Status status, Response response) {
-                boolean temp = watchList;
                 Log.d(DetailActivity.TAG, "WatchList " + status.getStatus_message());
             }
 

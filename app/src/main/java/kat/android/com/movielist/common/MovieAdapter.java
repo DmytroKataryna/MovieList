@@ -17,8 +17,8 @@ import kat.android.com.movielist.rest.pojo.movie.Movie;
 //custom adapter
 public class MovieAdapter extends BaseAdapter {
 
-    Context context;
-    List<Movie> movies;
+    private Context context;
+    private List<Movie> movies;
 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.movies = movies;

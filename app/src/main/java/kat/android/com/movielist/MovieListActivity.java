@@ -38,7 +38,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
     private static final int DISCOVER_FRAGMENT = 4;
     private static final int FAVORITE_FRAGMENT = 5;
     private static final int WATCHLIST_FRAGMENT = 6;
-    private static final int LOG_IN_OUT_FRAGMENT = 7;
+    private static final int LOG_IN_OUT = 7;
 
     private static final int FRAGMENT_COUNT = WATCHLIST_FRAGMENT + 1;
     private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
@@ -107,7 +107,7 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                                 showFragment(WATCHLIST_FRAGMENT);
                                 break;
                             //log in out button
-                            case LOG_IN_OUT_FRAGMENT + 2:
+                            case LOG_IN_OUT + 2:
                                 if (utils.isGuest()) {
                                     //login
                                     utils.logoutGuestSessionUser();
@@ -182,7 +182,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
 
         switch (item.getItemId()) {
             //if search menu item is clicked , show SearchFragment
