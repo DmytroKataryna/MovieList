@@ -12,7 +12,7 @@
     <string name="search_hint">Search Names</string>
     <string name="posterDescription">Image Poster</string>
     <string name="title">Title</string>
-    <string name="genres">Genres</string>
+    <string name="genres">Genres :</string>
     <string name="release">Release</string>
     <string name="runtime">Runtime</string>
     <string name="budget">Budget</string>
@@ -84,6 +84,23 @@
         <item>None</item>
         <item>Greater</item>
         <item>Less</item>
+    </string-array>
+
+    <string-array name="genres_array">
+        <item>None</item>
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Comedy</item>
+        <item>Crime</item>
+        <item>Drama</item>
+        <item>Documentary</item>
+        <item>Fantasy</item>
+        <item>History</item>
+        <item>Horror</item>
+        <item>Mystery</item>
+        <item>Romance</item>
+        <item>Thriller</item>
+        <item>War</item>
     </string-array>
 
 </resources>
