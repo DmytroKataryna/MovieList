@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -15,10 +16,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.lucasr.twowayview.TwoWayView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.common.ImageAdapter;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
+import kat.android.com.movielist.rest.pojo.images.Backdrop;
+import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
@@ -33,6 +42,7 @@ import retrofit.client.Response;
 //Detailed profile information
 public class MovieDetailsFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
 
+
     private int id;
     private boolean favorite;
     private boolean watchList;
@@ -44,7 +54,9 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     private PreferencesUtils utils;
     private Button mFavoriteButt, mWatchListButt;
     private RatingBar mRatingBar;
-
+    private List<Backdrop> images = new ArrayList<>();
+    private TwoWayView imagesListView;
+    private BaseAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.details_movie_layout, container, false);
+
+        adapter = new ImageAdapter(getActivity(), images);
 
         mImage = (ImageView) v.findViewById(R.id.posterImageView);
         mTitle = (TextView) v.findViewById(R.id.titleTextView);
@@ -81,6 +95,10 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mRatingBar = (RatingBar) v.findViewById(R.id.ratingBar);
         mRatingBar.setOnRatingBarChangeListener(this);
 
+        imagesListView = (TwoWayView) v.findViewById(R.id.lvItems);
+        imagesListView.setAdapter(adapter);
+
+
         if (utils.isGuest()) {
             mFavoriteButt.setVisibility(View.GONE);
             mWatchListButt.setVisibility(View.GONE);
@@ -95,6 +113,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         super.onActivityCreated(savedInstanceState);
         //get detail info about current movie
         loadMovieInformation();
+        //load movie images
+        loadMovieImages();
     }
 
     //get detail info about current movie
@@ -229,6 +249,25 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             @Override
             public void failure(RetrofitError error) {
                 Log.d(DetailActivity.TAG, "Rating changing failed");
+            }
+        });
+    }
+
+    //load movie images(backdrops)
+    private void loadMovieImages() {
+        RestClient.get().getMovieImages(id, new Callback<Image>() {
+            @Override
+            public void success(Image image, Response response) {
+                images = image.getBackdrops();
+                imagesListView.setAdapter(new ImageAdapter(getActivity(), images));
+
+                //if movie doesn't contain pictures , then set ListView visibility to GONE
+                if (images.size() == 0) imagesListView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(DetailActivity.TAG, "Images loading failed");
             }
         });
     }
