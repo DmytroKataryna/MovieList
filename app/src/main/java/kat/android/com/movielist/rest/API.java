@@ -143,7 +143,8 @@ public interface API {
 
     //popular persons
     @GET("/person/popular" + API_KEY)
-    void getPopularPerson(Callback<PersonResult> callback);
+    void getPopularPerson(@Query("page") int page,
+                          Callback<PersonResult> callback);
 
 
 }
