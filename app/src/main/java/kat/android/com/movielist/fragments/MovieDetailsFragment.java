@@ -23,10 +23,13 @@ import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.common.CastAdapter;
 import kat.android.com.movielist.common.ImageAdapter;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.images.Backdrop;
+import kat.android.com.movielist.rest.pojo.images.Cast;
+import kat.android.com.movielist.rest.pojo.images.Credits;
 import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
@@ -55,8 +58,9 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     private Button mFavoriteButt, mWatchListButt;
     private RatingBar mRatingBar;
     private List<Backdrop> images = new ArrayList<>();
-    private TwoWayView imagesListView;
-    private BaseAdapter adapter;
+    private List<Cast> cast = new ArrayList<>();
+    private TwoWayView imagesListView, castListView;
+    private BaseAdapter imagesAdapter, castAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.details_movie_layout, container, false);
 
-        adapter = new ImageAdapter(getActivity(), images);
+        imagesAdapter = new ImageAdapter(getActivity(), images);
+        castAdapter = new CastAdapter(getActivity(), cast);
 
         mImage = (ImageView) v.findViewById(R.id.posterImageView);
         mTitle = (TextView) v.findViewById(R.id.titleTextView);
@@ -96,7 +101,10 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mRatingBar.setOnRatingBarChangeListener(this);
 
         imagesListView = (TwoWayView) v.findViewById(R.id.lvItems);
-        imagesListView.setAdapter(adapter);
+        imagesListView.setAdapter(imagesAdapter);
+
+        castListView = (TwoWayView) v.findViewById(R.id.castLvItems);
+        castListView.setAdapter(castAdapter);
 
 
         if (utils.isGuest()) {
@@ -115,6 +123,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         loadMovieInformation();
         //load movie images
         loadMovieImages();
+        //load movie cast
+        loadMovieCast();
     }
 
     //get detail info about current movie
@@ -271,6 +281,23 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             }
         });
     }
+
+    //load movie cast
+    private void loadMovieCast() {
+        RestClient.get().getMovieCast(id, new Callback<Credits>() {
+            @Override
+            public void success(Credits credits, Response response) {
+                cast = credits.getCast();
+                castListView.setAdapter(new CastAdapter(getActivity(), cast));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {

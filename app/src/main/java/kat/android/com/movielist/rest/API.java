@@ -1,6 +1,7 @@
 package kat.android.com.movielist.rest;
 
 
+import kat.android.com.movielist.rest.pojo.images.Credits;
 import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
@@ -152,5 +153,9 @@ public interface API {
     @GET("/movie/{id}/images" + API_KEY)
     void getMovieImages(@Path("id") int id, Callback<Image> callback);
 
+
+    //movie cast
+    @GET("/movie/{id}/credits" + API_KEY)
+    void getMovieCast(@Path("id") int id, Callback<Credits> callback);
 
 }
