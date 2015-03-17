@@ -141,5 +141,9 @@ public interface API {
     void getPerson(@Query("query") String personName,
                    Callback<PersonResult> callback);
 
+    //popular persons
+    @GET("/person/popular" + API_KEY)
+    void getPopularPerson(Callback<PersonResult> callback);
+
 
 }
