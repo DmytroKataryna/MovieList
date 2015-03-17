@@ -132,6 +132,7 @@ public interface API {
                            @Query("sort_by") String sort,
                            @Query("vote_average.gte") Float voteGTE,
                            @Query("vote_average.lte") Float voteLTE,
+                           @Query("with_genres") Integer genreId,
                            @Query("with_people") String people,
                            Callback<MovieResponse> callback);
 

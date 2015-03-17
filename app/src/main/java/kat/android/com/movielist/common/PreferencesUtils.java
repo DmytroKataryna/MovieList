@@ -43,6 +43,9 @@ public class PreferencesUtils {
     private static final String KEY_DISCOVER_VOTE_AVERAGE_ORDER = "discoverVOTE_ORDER";
     private static final String KEY_DISCOVER_VOTE_AVERAGE_ORDER_POSITION = "discoverVOTE_ORDER_POS";
 
+    private static final String KEY_DISCOVER_GENRES = "discoverGENRES";
+    private static final String KEY_DISCOVER_GENRES_POSITION = "discoverGENRES_POS";
+
     private static final String KEY_DISCOVER_PEOPLES_NAME = "discoverPEOPLE";
     private static final String KEY_DISCOVER_PEOPLES_ID = "discoverPEOPLE_ID";
 
@@ -214,6 +217,21 @@ public class PreferencesUtils {
         return sharedPref.getInt(KEY_DISCOVER_VOTE_AVERAGE_ORDER_POSITION, 0);
     }
 
+    //****************** genres  ********************
+
+    public void setGenres(String genres, int position) {
+        sharedPref.edit().putString(KEY_DISCOVER_GENRES, genres)
+                .putInt(KEY_DISCOVER_GENRES_POSITION, position).apply();
+    }
+
+    public String getGenres() {
+        return sharedPref.getString(KEY_DISCOVER_GENRES, "None");
+    }
+
+    public int getGenresPos() {
+        return sharedPref.getInt(KEY_DISCOVER_GENRES_POSITION, 0);
+    }
+
     //***********
     public void savePerson(String personName, int personID) {
         //add person name
@@ -243,6 +261,7 @@ public class PreferencesUtils {
         return result.toString();
     }
 
+    //****************************
     public void resetDiscoverData() {
         sharedPref.edit().putBoolean(KEY_DISCOVER_ADULT, false)
                 .putString(KEY_DISCOVER_PRIMARY_RELEASE_YEAR, null)
@@ -250,6 +269,7 @@ public class PreferencesUtils {
                 .putString(KEY_DISCOVER_SORT_BY, null)
                 .putString(KEY_DISCOVER_VOTE_AVERAGE, null)
                 .putString(KEY_DISCOVER_VOTE_AVERAGE_ORDER, null)
+                .putString(KEY_DISCOVER_GENRES,null)
                 .putStringSet(KEY_DISCOVER_PEOPLES_NAME, null)
                 .putStringSet(KEY_DISCOVER_PEOPLES_ID, null)
                 .apply();
