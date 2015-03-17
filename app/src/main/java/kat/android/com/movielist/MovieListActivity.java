@@ -123,8 +123,8 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 }).withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View view) {
-                        drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(utils.isGuest()), 6);
-                        drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(utils.isGuest()), 7);
+                        drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_favorites).withIcon(FontAwesome.Icon.faw_heart).setEnabled(!utils.isGuest()), 6);
+                        drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_watch_list).withIcon(FontAwesome.Icon.faw_list_alt).setEnabled(!utils.isGuest()), 7);
 
                         if (utils.isGuest()) {
                             drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login).withIcon(FontAwesome.Icon.faw_sign_in), 9);
