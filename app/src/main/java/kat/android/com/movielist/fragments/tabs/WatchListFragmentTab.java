@@ -15,12 +15,15 @@ import retrofit.client.Response;
 
 public class WatchListFragmentTab extends AbstractFragmentTab {
 
-    private PreferencesUtils utils;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFirstPage();
+    }
 
     //load first page of favorite movies
     public void loadData(int page) {
-        utils = PreferencesUtils.get(getActivity());
 
         RestClient.get().getWatchListMovies(utils.getSessionUserID(), utils.getSessionID(), page, new Callback<MovieResponse>() {
             @Override
@@ -38,6 +41,7 @@ public class WatchListFragmentTab extends AbstractFragmentTab {
         });
     }
 
+    //on hide/show fragment listener
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {

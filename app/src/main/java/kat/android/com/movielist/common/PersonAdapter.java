@@ -16,8 +16,8 @@ import kat.android.com.movielist.rest.pojo.person.Person;
 
 public class PersonAdapter extends BaseAdapter {
 
-    Context context;
-    List<Person> persons;
+    private Context context;
+    private List<Person> persons;
 
     public PersonAdapter(Context context, List<Person> persons) {
         this.context = context;

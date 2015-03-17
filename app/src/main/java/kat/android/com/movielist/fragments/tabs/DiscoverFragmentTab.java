@@ -3,7 +3,6 @@ package kat.android.com.movielist.fragments.tabs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,14 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.github.johnpersano.supertoasts.SuperActivityToast;
 
 import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.R;
@@ -28,12 +24,13 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
 
 
     private PreferencesUtils utils;
-    private Spinner mYearSpinner, mSortSpinner, mYearOrderSpinner, mRatingSpinner, mRatingOrderSpinner;
+    private Spinner mYearSpinner, mSortSpinner, mYearOrderSpinner, mRatingSpinner, mRatingOrderSpinner, mGenresSpinner;
     private EditText mPeopleEditText;
     private CheckBox mAdultCheck;
+    private ImageButton mResetPeopleButton;
 
     private String years[] = new String[99];
-    private static final int CURRENT_YEAR = 2015;
+    private static final int CURRENT_YEAR = 2016;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,9 +61,13 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
         mRatingOrderSpinner.setOnItemSelectedListener(this);
         mRatingSpinner = (Spinner) v.findViewById(R.id.ratingSpinner);
         mRatingSpinner.setOnItemSelectedListener(this);
+        mGenresSpinner = (Spinner) v.findViewById(R.id.genresSpinner);
+        mGenresSpinner.setOnItemSelectedListener(this);
 
         mPeopleEditText = (EditText) v.findViewById(R.id.peopleEditText);
         mPeopleEditText.setOnClickListener(this);
+        mResetPeopleButton = (ImageButton) v.findViewById(R.id.imagePeopleButton);
+        mResetPeopleButton.setOnClickListener(this);
 
         ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, years);
         yearsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -80,23 +81,33 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
         ArrayAdapter<CharSequence> ratingAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.rating_array, android.R.layout.simple_spinner_item);
         sortByAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
+        ArrayAdapter<CharSequence> genresAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.genres_array, android.R.layout.simple_spinner_item);
+        sortByAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
         mYearSpinner.setAdapter(yearsAdapter);
         mYearOrderSpinner.setAdapter(orderAdapter);
         mSortSpinner.setAdapter(sortByAdapter);
         mRatingOrderSpinner.setAdapter(orderAdapter);
         mRatingSpinner.setAdapter(ratingAdapter);
+        mGenresSpinner.setAdapter(genresAdapter);
 
         return v;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.peopleEditText) {
-            //show people detail fragment (in which user picks persons  )
-            getFragmentManager().beginTransaction()
-                    .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
-                    .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
-                    .commit();
+        switch (v.getId()) {
+            case R.id.peopleEditText:
+                //show people detail fragment (in which user picks persons  )
+                getFragmentManager().beginTransaction()
+                        .hide(getFragmentManager().findFragmentById(R.id.fragment_discover))
+                        .replace(R.id.fragment_discover_data_list, new PeopleFragmentTab())
+                        .commit();
+                break;
+            case R.id.imagePeopleButton:
+                utils.resetPersonsData();
+                mPeopleEditText.setText("");
+                break;
         }
     }
 
@@ -124,6 +135,10 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
                 //save rating  order spinner text and position to preferences
                 utils.setVoteOrder(parent.getItemAtPosition(position).toString(), position);
                 break;
+            case R.id.genresSpinner:
+                //save genres spinner text and position to preferences
+                utils.setGenres(parent.getItemAtPosition(position).toString(), position);
+                break;
         }
     }
 
@@ -150,7 +165,9 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
             mSortSpinner.setSelection(utils.getSortOrderPos());
             mRatingSpinner.setSelection(utils.getVoteAvgPos());
             mRatingOrderSpinner.setSelection(utils.getVoteOrderPos());
+            mGenresSpinner.setSelection(utils.getGenresPos());
             mPeopleEditText.setText(utils.getPersonsName());
+
         }
     }
 
@@ -174,6 +191,7 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
                 mSortSpinner.setSelection(0);
                 mRatingSpinner.setSelection(0);
                 mRatingOrderSpinner.setSelection(0);
+                mGenresSpinner.setSelection(0);
                 mPeopleEditText.setText("");
 
                 //clear data in preferences

@@ -3,16 +3,11 @@ package kat.android.com.movielist.fragments.tabs;
 
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.util.List;
 
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.R;
-import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import retrofit.Callback;
@@ -20,8 +15,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class DiscoverResultFragmentTab extends AbstractFragmentTab {
-
-    private PreferencesUtils utils;
 
     private boolean adult;
     private String release_year;
@@ -31,6 +24,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     private String vote;
     private Float voteGTE;
     private Float voteLTE;
+    private Integer genre;
     private String people;
 
     private String year;
@@ -39,10 +33,9 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     //HTTP GET discover (load discover data)
     @Override
     public void loadData(int page) {
-        utils = PreferencesUtils.get(getActivity());
         getRequestParameters();
 
-        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, people, new Callback<MovieResponse>() {
+        RestClient.get().getDiscoverMovies(adult, page, release_year, release_order_gte, release_order_lte, sort_by, voteGTE, voteLTE, genre, people, new Callback<MovieResponse>() {
             @Override
             public void success(MovieResponse movieResponse, Response response) {
                 movieList.addAll(movieResponse.getMovies());
@@ -132,12 +125,55 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
                 break;
         }
 
+        switch (utils.getGenres()) {
+            case "None":
+                genre = null;
+                break;
+            case "Action":
+                genre = 28;
+                break;
+            case "Adventure":
+                genre = 12;
+                break;
+            case "Comedy":
+                genre = 35;
+                break;
+            case "Crime":
+                genre = 80;
+                break;
+            case "Drama":
+                genre = 18;
+                break;
+            case "Documentary":
+                genre = 99;
+                break;
+            case "Fantasy":
+                genre = 14;
+                break;
+            case "History":
+                genre = 36;
+                break;
+            case "Horror":
+                genre = 27;
+                break;
+            case "Mystery":
+                genre = 9648;
+                break;
+            case "Romance":
+                genre = 10749;
+                break;
+            case "Thriller":
+                genre = 53;
+                break;
+            case "War":
+                genre = 10752;
+                break;
+        }
         //people ID's
         if (utils.getPersonsID() != null && utils.getPersonsID().length() > 0)
             people = utils.getPersonsID();
         else
             people = null;
-
 
     }
 
@@ -153,7 +189,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.done) {
-            //set position to discover tab (isn't best idea)
+            //set position to discover tab (isn't best idea use static reference to another activity )
             MovieListActivity.drawerResult.setSelection(4);
 
             //show discover menu fragment
@@ -165,6 +201,5 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

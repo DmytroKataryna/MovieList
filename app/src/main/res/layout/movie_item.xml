@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_help"
             android:paddingRight="2dp"
-            android:contentDescription="@string/menuHelper"/>
+            android:contentDescription="@string/menuHelper" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -52,7 +52,7 @@
                     android:paddingTop="2dp"
                     android:src="@android:drawable/star_big_off"
                     android:id="@+id/starImageView"
-                    android:contentDescription="@string/starDescription"/>
+                    android:contentDescription="@string/starDescription" />
 
                 <TextView
                     android:layout_width="0dp"

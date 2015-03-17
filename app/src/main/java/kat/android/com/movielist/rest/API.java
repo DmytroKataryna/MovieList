@@ -1,6 +1,8 @@
 package kat.android.com.movielist.rest;
 
 
+import kat.android.com.movielist.rest.pojo.images.Credits;
+import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
 import kat.android.com.movielist.rest.pojo.person.PersonResult;
@@ -132,6 +134,7 @@ public interface API {
                            @Query("sort_by") String sort,
                            @Query("vote_average.gte") Float voteGTE,
                            @Query("vote_average.lte") Float voteLTE,
+                           @Query("with_genres") Integer genreId,
                            @Query("with_people") String people,
                            Callback<MovieResponse> callback);
 
@@ -140,5 +143,19 @@ public interface API {
     void getPerson(@Query("query") String personName,
                    Callback<PersonResult> callback);
 
+    //popular persons
+    @GET("/person/popular" + API_KEY)
+    void getPopularPerson(@Query("page") int page,
+                          Callback<PersonResult> callback);
+
+
+    //movie images
+    @GET("/movie/{id}/images" + API_KEY)
+    void getMovieImages(@Path("id") int id, Callback<Image> callback);
+
+
+    //movie cast
+    @GET("/movie/{id}/credits" + API_KEY)
+    void getMovieCast(@Path("id") int id, Callback<Credits> callback);
 
 }
