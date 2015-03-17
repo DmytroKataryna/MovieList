@@ -130,7 +130,6 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
         else
             people = null;
 
-
     }
 
     @Override
@@ -157,6 +156,5 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }
