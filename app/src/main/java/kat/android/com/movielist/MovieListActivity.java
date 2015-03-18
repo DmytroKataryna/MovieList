@@ -130,7 +130,6 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                             drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login).withIcon(FontAwesome.Icon.faw_sign_in), 9);
                         else
                             drawerResult.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withIcon(FontAwesome.Icon.faw_sign_out), 9);
-
                     }
 
                     @Override
