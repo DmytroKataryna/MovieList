@@ -5,6 +5,7 @@ import kat.android.com.movielist.rest.pojo.images.Credits;
 import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.movie.MovieResponse;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.moviedetails.Videos;
 import kat.android.com.movielist.rest.pojo.person.PersonResult;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
 import kat.android.com.movielist.rest.pojo.userdatails.GuestSession;
@@ -157,5 +158,10 @@ public interface API {
     //movie cast
     @GET("/movie/{id}/credits" + API_KEY)
     void getMovieCast(@Path("id") int id, Callback<Credits> callback);
+
+
+    //get movie videos
+    @GET("/movie/{id}/videos" + API_KEY)
+    void getMovieVideos(@Path("id") int id, Callback<Videos> callback);
 
 }

@@ -126,6 +126,7 @@ public class PeopleFragmentTab extends Fragment implements View.OnClickListener,
 
                 if (newText.length() == 0) {
                     listView.clear();
+                    loadPopularPersonFirstPage();
                 }
                 return true;
             }
@@ -193,7 +194,7 @@ public class PeopleFragmentTab extends Fragment implements View.OnClickListener,
     }
 
     //clear list and load first page
-    protected void loadFirstPage() {
+    protected void loadPopularPersonFirstPage() {
         searchResultMovies.clear();
         currentPage = 1;
         popularPersons(currentPage);

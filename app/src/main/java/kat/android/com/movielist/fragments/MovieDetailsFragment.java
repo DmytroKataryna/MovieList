@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.squareup.picasso.Picasso;
 
 import org.lucasr.twowayview.TwoWayView;
@@ -24,6 +25,7 @@ import java.util.List;
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.CastAdapter;
+import kat.android.com.movielist.common.DeveloperKey;
 import kat.android.com.movielist.common.ImageAdapter;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
@@ -32,6 +34,7 @@ import kat.android.com.movielist.rest.pojo.images.Cast;
 import kat.android.com.movielist.rest.pojo.images.Credits;
 import kat.android.com.movielist.rest.pojo.images.Image;
 import kat.android.com.movielist.rest.pojo.moviedetails.MovieDetails;
+import kat.android.com.movielist.rest.pojo.moviedetails.Videos;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountState;
 import kat.android.com.movielist.rest.pojo.userdatails.accountstate.AccountStateWithoutRate;
 import kat.android.com.movielist.rest.pojo.userdatails.post.Favorite;
@@ -50,12 +53,13 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     private boolean favorite;
     private boolean watchList;
     private float rating;
+    private String trailerKey;
     private ImageView mImage;
     private MovieDetails data;
     private TextView mTitle, mGenres, mRelease, mRuntime, mBudget;
-    private TextView mAvgRate, mCount, mDescription, mHomePage;
+    private TextView mAvgRate, mCount, mDescription, mHomePage, mCastText;
     private PreferencesUtils utils;
-    private Button mFavoriteButt, mWatchListButt;
+    private Button mFavoriteButt, mWatchListButt, mYouTubeButton;
     private RatingBar mRatingBar;
     private List<Backdrop> images = new ArrayList<>();
     private List<Cast> cast = new ArrayList<>();
@@ -90,12 +94,18 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mCount = (TextView) v.findViewById(R.id.countView);
         mDescription = (TextView) v.findViewById(R.id.detailsDescriptionView);
         mHomePage = (TextView) v.findViewById(R.id.detailsHomePageView);
+        mCastText = (TextView) v.findViewById(R.id.castTextView);
 
         mFavoriteButt = (Button) v.findViewById(R.id.addFav);
         mFavoriteButt.setOnClickListener(this);
 
         mWatchListButt = (Button) v.findViewById(R.id.addWatch);
         mWatchListButt.setOnClickListener(this);
+
+        mYouTubeButton = (Button) v.findViewById(R.id.youTubeButton);
+        mYouTubeButton.setOnClickListener(this);
+        mYouTubeButton.setBackgroundResource(R.drawable.ic_youtube_gray);
+        mYouTubeButton.setEnabled(false);
 
         mRatingBar = (RatingBar) v.findViewById(R.id.ratingBar);
         mRatingBar.setOnRatingBarChangeListener(this);
@@ -125,6 +135,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         loadMovieImages();
         //load movie cast
         loadMovieCast();
+        //load movie videos
+        loadMovieVideos();
     }
 
     //get detail info about current movie
@@ -290,16 +302,40 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 cast = credits.getCast();
                 castListView.setAdapter(new CastAdapter(getActivity(), cast));
 
-                if (cast.size() == 0) castListView.setVisibility(View.GONE);
+                if (cast.size() == 0) {
+                    castListView.setVisibility(View.GONE);
+                    mCastText.setVisibility(View.GONE);
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Log.d(DetailActivity.TAG, "Cast loading failed");
             }
         });
     }
 
+    //load movie videos
+    private void loadMovieVideos() {
+        RestClient.get().getMovieVideos(id, new Callback<Videos>() {
+            @Override
+            public void success(Videos videos, Response response) {
+                //get movie trailers , if list isn't empty then change background and make butt enable to click
+                if (videos.getResults() != null
+                        && videos.getResults().size() > 0
+                        && videos.getResults().get(0).getSite().equals("YouTube")) {
+                    mYouTubeButton.setEnabled(true);
+                    mYouTubeButton.setBackgroundResource(R.drawable.ic_youtube);
+                    trailerKey = videos.getResults().get(0).getKey();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d(DetailActivity.TAG, "Movie videos data loading failed");
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -328,6 +364,12 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                     watchList = !watchList;
                 }
                 break;
+            //YouTube button
+            case R.id.youTubeButton:
+                startActivity(
+                        YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKey.DEVELOPER_KEY, trailerKey));
+                break;
+
         }
     }
 
