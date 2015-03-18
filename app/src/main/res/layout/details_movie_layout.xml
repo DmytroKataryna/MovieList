@@ -7,9 +7,9 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:padding="2dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -174,8 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginBottom="3dp"
-                android:drawSelectorOnTop="false"
-                android:focusable="false"/>
+                android:drawSelectorOnTop="false" />
 
             <LinearLayout
                 android:layout_width="match_parent"
