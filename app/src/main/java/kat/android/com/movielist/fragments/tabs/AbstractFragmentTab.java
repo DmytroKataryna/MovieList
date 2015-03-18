@@ -54,7 +54,6 @@ public abstract class AbstractFragmentTab extends Fragment implements AdapterVie
 
             listView = (SuperListview) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
-            listView.setAdapter(adapter);
 
             listView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override

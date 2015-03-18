@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
@@ -81,6 +82,17 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.details_movie_layout, container, false);
 
+        //**********fix bug ( when user open movie detail , scroll view isn't displayed at the top of the screen)
+        final ScrollView scroll = (ScrollView) v.findViewById(R.id.detailsScrollView);
+        scroll.post(new Runnable() {
+            @Override
+            public void run() {
+                scroll.fullScroll(View.FOCUS_UP);
+                scroll.smoothScrollTo(scroll.getTop(), scroll.getTop());
+            }
+        });
+        //****************************************************************************************
+
         imagesAdapter = new ImageAdapter(getActivity(), images);
         castAdapter = new CastAdapter(getActivity(), cast);
 
@@ -103,8 +115,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mWatchListButt.setOnClickListener(this);
 
         mYouTubeButton = (Button) v.findViewById(R.id.youTubeButton);
-        mYouTubeButton.setOnClickListener(this);
         mYouTubeButton.setBackgroundResource(R.drawable.ic_youtube_gray);
+        mYouTubeButton.setOnClickListener(this);
         mYouTubeButton.setEnabled(false);
 
         mRatingBar = (RatingBar) v.findViewById(R.id.ratingBar);
@@ -191,7 +203,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                     mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_orange);
                 else
                     mFavoriteButt.setBackgroundResource(R.drawable.ic_action_favorite_gray);
-
             }
 
             @Override
@@ -302,6 +313,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 cast = credits.getCast();
                 castListView.setAdapter(new CastAdapter(getActivity(), cast));
 
+                //if movie doesn't contain cast , then set ListView /Cast Text visibility to GONE
                 if (cast.size() == 0) {
                     castListView.setVisibility(View.GONE);
                     mCastText.setVisibility(View.GONE);
@@ -364,7 +376,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                     watchList = !watchList;
                 }
                 break;
-            //YouTube button
+            //youTube button
             case R.id.youTubeButton:
                 startActivity(
                         YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKey.DEVELOPER_KEY, trailerKey));

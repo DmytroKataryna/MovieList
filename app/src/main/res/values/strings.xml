@@ -55,7 +55,7 @@
     <string name="discover">DISCOVER</string>
     <string name="signUp">Sign Up</string>
     <string name="signIn">Sign In</string>
-    <string name="emptyList">movie list empty</string>
+    <string name="emptyList">No Items</string>
     <string name="cast">Cast :</string>
 
     <string-array name="sort_by_array">

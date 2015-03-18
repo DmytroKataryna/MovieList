@@ -40,7 +40,11 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
             public void success(MovieResponse movieResponse, Response response) {
                 movieList.addAll(movieResponse.getMovies());
                 totalPages = movieResponse.getTotal_pages();
-                adapter.notifyDataSetChanged();
+
+                if (listView.getAdapter() == null)
+                    listView.setAdapter(adapter);
+                else
+                    adapter.notifyDataSetChanged();
             }
 
             @Override
