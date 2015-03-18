@@ -28,7 +28,11 @@ public class FavoritesFragmentTab extends AbstractFragmentTab {
                 //get movies list , and add it to array
                 movieList.addAll(movieResponse.getMovies());
                 totalPages = movieResponse.getTotal_pages();
-                adapter.notifyDataSetChanged();
+
+                if (listView.getAdapter() == null)
+                    listView.setAdapter(adapter);
+                else
+                    adapter.notifyDataSetChanged();
             }
 
             @Override

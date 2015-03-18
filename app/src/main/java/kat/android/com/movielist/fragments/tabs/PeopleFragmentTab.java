@@ -89,7 +89,6 @@ public class PeopleFragmentTab extends Fragment implements View.OnClickListener,
 
         listView = (SuperListview) v.findViewById(R.id.listPeoples);
         listView.setOnItemClickListener(this);
-        listView.setAdapter(adapter);
 
         listView.setupMoreListener(new OnMoreListener() {
             @Override
@@ -161,7 +160,11 @@ public class PeopleFragmentTab extends Fragment implements View.OnClickListener,
             public void success(PersonResult personResult, Response response) {
                 totalPages = personResult.getTotal_pages();
                 searchResultMovies.addAll(personResult.getResults());
-                adapter.notifyDataSetChanged();
+
+                if (listView.getAdapter() == null)
+                    listView.setAdapter(adapter);
+                else
+                    adapter.notifyDataSetChanged();
             }
 
             @Override
