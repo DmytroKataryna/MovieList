@@ -2,6 +2,7 @@ package kat.android.com.movielist.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
@@ -23,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import org.lucasr.twowayview.TwoWayView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,10 @@ import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 //Detailed profile information
 public class MovieDetailsFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
@@ -64,7 +71,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     private TextView mTitle, mGenres, mRelease, mRuntime, mBudget;
     private TextView mAvgRate, mCount, mDescription, mHomePage, mCastText;
     private PreferencesUtils utils;
-    private Button mFavoriteButt, mWatchListButt, mYouTubeButton, mShareButton;
+    private Button mFavoriteButt, mWatchListButt, mYouTubeButton, mFaceBookButton, mTwitterButton;
     private RatingBar mRatingBar;
     private List<Backdrop> images = new ArrayList<>();
     private List<Cast> cast = new ArrayList<>();
@@ -128,8 +135,13 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mYouTubeButton.setOnClickListener(this);
         mYouTubeButton.setEnabled(false);
 
-        mShareButton = (Button) v.findViewById(R.id.shareButton);
-        mShareButton.setOnClickListener(this);
+        mFaceBookButton = (Button) v.findViewById(R.id.faceBookButton);
+        mFaceBookButton.setBackgroundResource(R.drawable.ic_facebook_button);
+        mFaceBookButton.setOnClickListener(this);
+
+        mTwitterButton = (Button) v.findViewById(R.id.twitterButton);
+        mTwitterButton.setBackgroundResource(R.drawable.ic_twitter_circle);
+        mTwitterButton.setOnClickListener(this);
 
         mRatingBar = (RatingBar) v.findViewById(R.id.ratingBar);
         mRatingBar.setOnRatingBarChangeListener(this);
@@ -390,22 +402,30 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                     watchList = !watchList;
                 }
                 break;
+
             //youTube button
             case R.id.youTubeButton:
                 startActivity(
                         YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKey.DEVELOPER_KEY, trailerKey));
                 break;
-            //share button
-            case R.id.shareButton:
 
-                //facebook share dialog
+            case R.id.faceBookButton:
+                //     facebook share dialog
                 FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
                         .setLink("https://www.themoviedb.org/movie/" + id)
                         .setName(movieTitle)
                         .setDescription("Check this movie !")
                         .build();
                 uiHelper.trackPendingDialogCall(shareDialog.present());
+                break;
 
+            case R.id.twitterButton:
+                try {
+                    makeTweet();
+                } catch (TwitterException | IOException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getActivity(), "You shared this movie in twitter", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -470,6 +490,37 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         super.onDestroy();
         uiHelper.onDestroy();
     }
+
+    //*************************** Twitter  ***************************
+
+    private void makeTweet() throws TwitterException, IOException {
+        new Task().execute();
+    }
+
+    class Task extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ConfigurationBuilder cb = new ConfigurationBuilder();
+            cb.setDebugEnabled(true)
+                    .setOAuthConsumerKey(DeveloperKey.consumer_key)
+                    .setOAuthConsumerSecret(DeveloperKey.secret_key)
+                    .setOAuthAccessToken(DeveloperKey.access_token)
+                    .setOAuthAccessTokenSecret(DeveloperKey.access_token_secret);
+            TwitterFactory tf = new TwitterFactory(cb.build());
+            Twitter twitter = tf.getInstance();
+
+            try {
+                twitter.updateStatus("Just watched " + movieTitle + " movie !");
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
 
 }
 
