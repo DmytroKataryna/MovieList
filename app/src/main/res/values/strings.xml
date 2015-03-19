@@ -58,6 +58,9 @@
     <string name="emptyList">No Items</string>
     <string name="cast">Cast :</string>
 
+
+    <string name="facebook_app_id">648058138671134</string>
+
     <string-array name="sort_by_array">
         <item>None</item>
         <item>Release Date asc</item>
