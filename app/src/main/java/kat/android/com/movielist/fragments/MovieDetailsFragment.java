@@ -2,7 +2,6 @@ package kat.android.com.movielist.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -16,23 +15,25 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import org.lucasr.twowayview.TwoWayView;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
 import kat.android.com.movielist.DetailActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.CastAdapter;
-import kat.android.com.movielist.common.DeveloperKey;
+import kat.android.com.movielist.common.DeveloperKeys;
 import kat.android.com.movielist.common.ImageAdapter;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
@@ -51,10 +52,6 @@ import kat.android.com.movielist.rest.pojo.userdatails.post.WatchList;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
 
 //Detailed profile information
 public class MovieDetailsFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
@@ -88,8 +85,12 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getActivity());
 
+        //facebook
         uiHelper = new UiLifecycleHelper(getActivity(), null);
         uiHelper.onCreate(savedInstanceState);
+
+        //twitter
+        Fabric.with(getActivity(), new TweetComposer());
 
     }
 
@@ -151,7 +152,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
         castListView = (TwoWayView) v.findViewById(R.id.castLvItems);
         castListView.setAdapter(castAdapter);
-
 
         if (utils.isGuest()) {
             mFavoriteButt.setVisibility(View.GONE);
@@ -406,7 +406,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             //youTube button
             case R.id.youTubeButton:
                 startActivity(
-                        YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKey.DEVELOPER_KEY, trailerKey));
+                        YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKeys.DEVELOPER_KEY, trailerKey));
                 break;
 
             case R.id.faceBookButton:
@@ -420,12 +420,16 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.twitterButton:
+
                 try {
-                    makeTweet();
-                } catch (TwitterException | IOException e) {
+                    TweetComposer.Builder builder;
+                    builder = new TweetComposer.Builder(getActivity())
+                            .text("Check this movie !")
+                            .url(new URL("https://www.themoviedb.org/movie/" + id));
+                    builder.show();
+                } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getActivity(), "You shared this movie in twitter", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -490,37 +494,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         super.onDestroy();
         uiHelper.onDestroy();
     }
-
-    //*************************** Twitter  ***************************
-
-    private void makeTweet() throws TwitterException, IOException {
-        new Task().execute();
-    }
-
-    class Task extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ConfigurationBuilder cb = new ConfigurationBuilder();
-            cb.setDebugEnabled(true)
-                    .setOAuthConsumerKey(DeveloperKey.consumer_key)
-                    .setOAuthConsumerSecret(DeveloperKey.secret_key)
-                    .setOAuthAccessToken(DeveloperKey.access_token)
-                    .setOAuthAccessTokenSecret(DeveloperKey.access_token_secret);
-            TwitterFactory tf = new TwitterFactory(cb.build());
-            Twitter twitter = tf.getInstance();
-
-            try {
-                twitter.updateStatus("Just watched " + movieTitle + " movie !");
-
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
-
 
 }
 
