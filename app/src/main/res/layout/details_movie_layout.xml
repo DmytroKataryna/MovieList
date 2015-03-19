@@ -116,8 +116,8 @@
                     android:id="@+id/detailStarImageView"
                     android:layout_width="40dp"
                     android:layout_height="45dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="2dp"
                     android:layout_marginTop="3dp"
                     android:contentDescription="@string/starDescription"
                     android:src="@android:drawable/star_big_off" />
@@ -130,7 +130,7 @@
                         android:id="@+id/detailsAvgView"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="3dp"
                         android:textSize="36sp" />
 
                     <TextView
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginLeft="3dp"
+                        android:layout_marginLeft="2dp"
                         android:layout_toRightOf="@+id/detailsAvgView"
                         android:textColor="#FB8C00"
                         android:textSize="20sp" />
@@ -149,7 +149,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/addWatch"
                         android:layout_toStartOf="@+id/addWatch" />
 
@@ -158,10 +157,9 @@
                         style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@+id/youTubeButton"
-                        android:layout_toStartOf="@+id/youTubeButton" />
+                        android:layout_alignTop="@+id/shareButton"
+                        android:layout_toLeftOf="@+id/shareButton"
+                        android:layout_toStartOf="@+id/shareButton" />
 
                     <Button
                         android:id="@+id/youTubeButton"
@@ -172,8 +170,18 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="4dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="4dp"
                         android:background="@drawable/ic_youtube" />
+
+                    <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SH"
+                        android:id="@+id/shareButton"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/youTubeButton"
+                        android:layout_toStartOf="@+id/youTubeButton" />
 
                 </RelativeLayout>
 

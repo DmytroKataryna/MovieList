@@ -1,6 +1,7 @@
 package kat.android.com.movielist.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -15,6 +16,8 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.squareup.picasso.Picasso;
 
@@ -54,18 +57,21 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
     private boolean favorite;
     private boolean watchList;
     private float rating;
+    private String movieTitle;
     private String trailerKey;
     private ImageView mImage;
     private MovieDetails data;
     private TextView mTitle, mGenres, mRelease, mRuntime, mBudget;
     private TextView mAvgRate, mCount, mDescription, mHomePage, mCastText;
     private PreferencesUtils utils;
-    private Button mFavoriteButt, mWatchListButt, mYouTubeButton;
+    private Button mFavoriteButt, mWatchListButt, mYouTubeButton, mShareButton;
     private RatingBar mRatingBar;
     private List<Backdrop> images = new ArrayList<>();
     private List<Cast> cast = new ArrayList<>();
     private TwoWayView imagesListView, castListView;
     private BaseAdapter imagesAdapter, castAdapter;
+
+    private UiLifecycleHelper uiHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,9 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         id = getArguments().getInt(DetailActivity.ID_KEY);
         //utils class which stores user data (login , session , name)
         utils = PreferencesUtils.get(getActivity());
+
+        uiHelper = new UiLifecycleHelper(getActivity(), null);
+        uiHelper.onCreate(savedInstanceState);
 
     }
 
@@ -119,6 +128,9 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         mYouTubeButton.setOnClickListener(this);
         mYouTubeButton.setEnabled(false);
 
+        mShareButton = (Button) v.findViewById(R.id.shareButton);
+        mShareButton.setOnClickListener(this);
+
         mRatingBar = (RatingBar) v.findViewById(R.id.ratingBar);
         mRatingBar.setOnRatingBarChangeListener(this);
 
@@ -158,6 +170,8 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             @Override
             public void success(MovieDetails movieDetails, Response response) {
                 data = movieDetails;
+                movieTitle = movieDetails.getTitle();
+
                 Picasso.with(getActivity()).load("https://image.tmdb.org/t/p/w185" + data.getPoster_path()).into(mImage);
                 mTitle.setText(data.getTitle());
                 mGenres.setText(getGenres());
@@ -381,7 +395,18 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 startActivity(
                         YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKey.DEVELOPER_KEY, trailerKey));
                 break;
+            //share button
+            case R.id.shareButton:
 
+                //facebook share dialog
+                FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
+                        .setLink("https://www.themoviedb.org/movie/" + id)
+                        .setName(movieTitle)
+                        .setDescription("Check this movie !")
+                        .build();
+                uiHelper.trackPendingDialogCall(shareDialog.present());
+
+                break;
         }
     }
 
@@ -401,6 +426,49 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         }
         builder.deleteCharAt(builder.lastIndexOf(", "));
         return builder.toString();
+    }
+
+
+    //******************************  FACEBOOK  ***************************************
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+            @Override
+            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                Log.e("Activity", String.format("Error: %s", error.toString()));
+            }
+
+            @Override
+            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                Log.i("Activity", "Success!");
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        uiHelper.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
     }
 
 }
