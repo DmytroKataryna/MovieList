@@ -17,8 +17,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookException;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.internal.Utility;
 import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.WebDialog;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -413,19 +416,15 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             case R.id.faceBookButton:
                 //    If people  have the Facebook app installed post msg by Share Dialog
                 if (FacebookDialog.canPresentShareDialog(getActivity(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
-                    FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
-                            .setLink("https://www.themoviedb.org/movie/" + id)
-                            .setName(movieTitle)
-                            .setDescription("Check this movie !")
-                            .build();
-                    uiHelper.trackPendingDialogCall(shareDialog.present());
+                    facebookShareDialogPublish();
                 } else {
-                    Toast.makeText(getActivity(), "You don't have the Facebook app installed", Toast.LENGTH_SHORT).show();
+                    //post by Web Dialog , if user don't have the Facebook app installed
+                    facebookFeedDialogPublish();
                 }
                 break;
 
             case R.id.twitterButton:
-
+                //twitter dialog
                 try {
                     TweetComposer.Builder builder;
                     builder = new TweetComposer.Builder(getActivity())
@@ -439,6 +438,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //checkBox listener
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         movieRatingChange(rating);
@@ -459,6 +459,40 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
 
     //******************************  FACEBOOK  ***************************************
+
+    public final void facebookShareDialogPublish() {
+        FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
+                .setLink("https://www.themoviedb.org/movie/" + id)
+                .setName(movieTitle)
+                .setDescription("Check this movie !")
+                .build();
+        uiHelper.trackPendingDialogCall(shareDialog.present());
+    }
+
+    public final void facebookFeedDialogPublish() {
+        //Facebook-client is not installed – use web-dialog
+        Bundle params = new Bundle();
+        params.putString("name", movieTitle);
+        params.putString("caption", "www.themoviedb.org");
+        params.putString("description", "Check this movie !");
+        params.putString("link", "https://www.themoviedb.org/movie/" + id);
+        params.putString("picture", "https://image.tmdb.org/t/p/w185" + data.getPoster_path());
+
+        WebDialog feedDialog = new WebDialog.FeedDialogBuilder(getActivity(), Utility.getMetadataApplicationId(getActivity()), params)
+                .setOnCompleteListener(new WebDialog.OnCompleteListener() {
+                    //Listener for web-dialog
+                    @Override
+                    public void onComplete(Bundle values, FacebookException error) {
+                        if ((values != null) && (values.getString("post_id") != null) && (error == null)) {
+                            Toast.makeText(getActivity(), "You shared this post", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Failed share this post", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).build();
+        feedDialog.show();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -499,6 +533,5 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         super.onDestroy();
         uiHelper.onDestroy();
     }
-
 }
 
