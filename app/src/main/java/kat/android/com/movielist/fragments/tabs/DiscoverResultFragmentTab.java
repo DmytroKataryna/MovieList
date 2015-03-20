@@ -73,11 +73,13 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
                 release_order_lte = null;
                 break;
             case "Greater":
+                if (year == null || year.equals("None")) break;
                 release_order = null;
                 release_order_gte = year + "-01-01";
                 release_order_lte = null;
                 break;
             case "Less":
+                if (year == null || year.equals("None")) break;
                 release_order = null;
                 release_order_gte = null;
                 release_order_lte = year + "-01-01";

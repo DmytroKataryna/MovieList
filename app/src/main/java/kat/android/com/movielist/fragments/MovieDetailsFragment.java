@@ -410,7 +410,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
             //youTube button
             case R.id.youTubeButton:
                 startActivity(
-                        YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKeys.DEVELOPER_KEY, trailerKey));
+                        YouTubeStandalonePlayer.createVideoIntent(getActivity(), DeveloperKeys.DEVELOPER_KEY, trailerKey, 0, true, true));
                 break;
 
             case R.id.faceBookButton:
