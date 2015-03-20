@@ -16,6 +16,8 @@ import retrofit.client.Response;
 
 public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
+    private static final int DISCOVER_FRAGMENT = 4;
+
     private boolean adult;
     private String release_year;
     private String release_order_gte;
@@ -194,7 +196,7 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
         if (item.getItemId() == R.id.done) {
             //set position to discover tab (isn't best idea use static reference to another activity )
-            MovieListActivity.drawerResult.setSelection(4);
+            MovieListActivity.drawerResult.setSelection(DISCOVER_FRAGMENT);
 
             //show discover menu fragment
             getFragmentManager().beginTransaction()
@@ -205,5 +207,4 @@ public class DiscoverResultFragmentTab extends AbstractFragmentTab {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

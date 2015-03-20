@@ -154,6 +154,9 @@ public class MovieListActivity extends ActionBarActivity implements MenuItemComp
                 transaction.show(fragments[i]);
             } else transaction.hide(fragments[i]);
         }
+        //fix bug , when user change fragment (for example : from peopleFragment to PopularFragment) , previous fragment should be removed
+        if (fm.findFragmentById(R.id.fragment_discover_data_list) != null)
+            transaction.remove(fm.findFragmentById(R.id.fragment_discover_data_list));
         transaction.commit();
     }
 
