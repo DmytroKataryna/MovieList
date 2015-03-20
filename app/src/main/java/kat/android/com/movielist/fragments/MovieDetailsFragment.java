@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
@@ -410,13 +411,17 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.faceBookButton:
-                //     facebook share dialog
-                FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
-                        .setLink("https://www.themoviedb.org/movie/" + id)
-                        .setName(movieTitle)
-                        .setDescription("Check this movie !")
-                        .build();
-                uiHelper.trackPendingDialogCall(shareDialog.present());
+                //    If people  have the Facebook app installed post msg by Share Dialog
+                if (FacebookDialog.canPresentShareDialog(getActivity(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+                    FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
+                            .setLink("https://www.themoviedb.org/movie/" + id)
+                            .setName(movieTitle)
+                            .setDescription("Check this movie !")
+                            .build();
+                    uiHelper.trackPendingDialogCall(shareDialog.present());
+                } else {
+                    Toast.makeText(getActivity(), "You don't have the Facebook app installed", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.twitterButton:
