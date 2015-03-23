@@ -60,7 +60,6 @@ import retrofit.client.Response;
 //Detailed profile information
 public class MovieDetailsFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener {
 
-
     private int id;
     private boolean favorite;
     private boolean watchList;
