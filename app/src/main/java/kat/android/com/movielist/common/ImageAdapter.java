@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.images.Backdrop;
 
 public class ImageAdapter extends BaseAdapter {
@@ -55,7 +56,7 @@ public class ImageAdapter extends BaseAdapter {
         if (image.getFile_path() == null)
             holder.imageView.setImageResource(android.R.drawable.ic_menu_help);
         else  //Using picasso to load movie images
-            Picasso.with(context).load("https://image.tmdb.org/t/p/w185" + image.getFile_path()).into(holder.imageView);
+            Picasso.with(context).load(RestClient.IMAGE_ROOT + "/w185" + image.getFile_path()).into(holder.imageView);
         return convertView;
     }
 

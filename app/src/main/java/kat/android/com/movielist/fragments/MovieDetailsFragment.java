@@ -95,7 +95,6 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
         //twitter
         Fabric.with(getActivity(), new TweetComposer());
-
     }
 
     @Nullable
@@ -188,7 +187,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
                 data = movieDetails;
                 movieTitle = movieDetails.getTitle();
 
-                Picasso.with(getActivity()).load("https://image.tmdb.org/t/p/w185" + data.getPoster_path()).into(mImage);
+                Picasso.with(getActivity()).load(RestClient.IMAGE_ROOT + "/w185" + data.getPoster_path()).into(mImage);
                 mTitle.setText(data.getTitle());
                 mGenres.setText(getGenres());
                 mRelease.setText(data.getRelease_date());
@@ -476,7 +475,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
         params.putString("caption", "www.themoviedb.org");
         params.putString("description", "Check this movie !");
         params.putString("link", "https://www.themoviedb.org/movie/" + id);
-        params.putString("picture", "https://image.tmdb.org/t/p/w185" + data.getPoster_path());
+        params.putString("picture", RestClient.IMAGE_ROOT + "/w185" + data.getPoster_path());
 
         WebDialog feedDialog = new WebDialog.FeedDialogBuilder(getActivity(), Utility.getMetadataApplicationId(getActivity()), params)
                 .setOnCompleteListener(new WebDialog.OnCompleteListener() {

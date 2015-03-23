@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import kat.android.com.movielist.MovieListActivity;
 import kat.android.com.movielist.R;
 import kat.android.com.movielist.common.PreferencesUtils;
@@ -30,7 +33,8 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
     private ImageButton mResetPeopleButton;
 
     private String years[] = new String[99];
-    private static final int CURRENT_YEAR = 2016;
+    private static final int CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR);
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -215,7 +219,8 @@ public class DiscoverFragmentTab extends Fragment implements View.OnClickListene
             if (i == 0)
                 years[i] = "None";
             else
-                years[i] = String.valueOf(CURRENT_YEAR - i);
+                // + 1 because first element should be None and then 2015(current year)
+                years[i] = String.valueOf(CURRENT_YEAR - i + 1);
         }
     }
 }

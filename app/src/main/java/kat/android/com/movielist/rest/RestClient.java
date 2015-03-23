@@ -12,6 +12,10 @@ public class RestClient {
     private static final String ROOT =
             "http://api.themoviedb.org/3";
 
+    public static final String IMAGE_ROOT =
+            "https://image.tmdb.org/t/p";
+
+
     static {
         setupRestClient();
     }

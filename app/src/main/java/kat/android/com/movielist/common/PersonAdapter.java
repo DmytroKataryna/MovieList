@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.person.Person;
 
 public class PersonAdapter extends BaseAdapter {
@@ -61,7 +62,7 @@ public class PersonAdapter extends BaseAdapter {
         if (person.getProfile_path() == null)
             holder.imageView.setImageResource(android.R.drawable.ic_menu_help);
         else
-            Picasso.with(context).load("https://image.tmdb.org/t/p/w130" + person.getProfile_path()).into(holder.imageView);
+            Picasso.with(context).load(RestClient.IMAGE_ROOT + "/w130" + person.getProfile_path()).into(holder.imageView);
 
         holder.personName.setText(person.getName());
         holder.mark.setText((int) person.getPopularity() + "");

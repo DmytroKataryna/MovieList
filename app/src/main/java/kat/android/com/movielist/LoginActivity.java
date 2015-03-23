@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
 import io.fabric.sdk.android.Fabric;
+import kat.android.com.movielist.common.DeveloperKeys;
 import kat.android.com.movielist.common.PreferencesUtils;
 import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.userdatails.Account;
@@ -26,21 +28,16 @@ import retrofit.client.Response;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "LolVJEUn64nTAR7fGbvEXVKR6";
-    private static final String TWITTER_SECRET = "IKFbvHzh3K7q9koqYzkHONuq9dVSoTrtKVLN8CbCuHrRurfTUa";
-
     private EditText mLoginEditText, mPassEditText;
     private Button mSend, mReg;
     private String mLogin, mPassword;
-    private String mToken;
     private String mSession_ID;
     private PreferencesUtils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(DeveloperKeys.TWITTER_KEY, DeveloperKeys.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.login_layout);
 

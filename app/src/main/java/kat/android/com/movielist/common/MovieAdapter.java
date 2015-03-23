@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import kat.android.com.movielist.R;
+import kat.android.com.movielist.rest.RestClient;
 import kat.android.com.movielist.rest.pojo.movie.Movie;
 
 //custom adapter
@@ -61,7 +62,7 @@ public class MovieAdapter extends BaseAdapter {
         if (movie.getBackdrop_path() == null)
             holder.imageView.setImageResource(android.R.drawable.ic_menu_help);
         else  //Using picasso to load movie icon
-            Picasso.with(context).load("https://image.tmdb.org/t/p/w130" + movie.getBackdrop_path()).into(holder.imageView);
+            Picasso.with(context).load(RestClient.IMAGE_ROOT + "/w130" + movie.getBackdrop_path()).into(holder.imageView);
         holder.movieTitle.setText(movie.getTitle());
         holder.movieVoteAvrView.setText(movie.getVote_average() + "");
         holder.movieVoteCountView.setText(movie.getVote_count() + " votes");
