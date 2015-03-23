@@ -16,4 +16,5 @@
         android:gravity="center"
         android:text="Cast Name"
         android:textSize="12sp" />
+
 </LinearLayout>

@@ -141,57 +141,28 @@
                         android:textColor="#FB8C00"
                         android:textSize="17sp" />
 
-                    <Button
-                        android:id="@+id/youTubeButton"
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="45dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_youtube"
-                        android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/twitterButton"
-                        android:layout_toStartOf="@+id/twitterButton" />
-
-                    <Button
-                        android:id="@+id/faceBookButton"
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/youTubeButton"
-                        android:layout_toStartOf="@+id/youTubeButton"
-                        android:layout_alignBottom="@+id/youTubeButton" />
-
-                    <Button
-                        android:id="@+id/twitterButton"
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="45dp"
-                        android:layout_height="47dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="1dp" />
 
                     <Button
                         android:id="@+id/addWatch"
                         style="?android:attr/buttonStyleSmall"
-                        android:layout_width="45dp"
+                        android:layout_width="48dp"
                         android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/addFav"
                         android:layout_gravity="right"
-                        android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/faceBookButton"
-                        android:layout_toStartOf="@+id/faceBookButton"
-                        android:layout_marginTop="1dp" />
+                        android:layout_marginRight="5dp" />
 
                     <Button
                         android:id="@+id/addFav"
                         style="?android:attr/buttonStyleSmall"
-                        android:layout_width="43dp"
+                        android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
+                        android:layout_marginTop="1dp"
+
                         android:layout_toLeftOf="@+id/addWatch"
-                        android:layout_toStartOf="@+id/addWatch"
-                        android:layout_marginTop="1dp" />
+                        android:layout_toStartOf="@+id/addWatch" />
 
                 </RelativeLayout>
 
@@ -250,6 +221,7 @@
                     android:layout_marginBottom="3dp"
                     android:drawSelectorOnTop="false" />
 
+
                 <TextView
                     android:id="@+id/detailsHomePageView"
                     android:layout_width="wrap_content"
@@ -258,10 +230,46 @@
                     android:linksClickable="true"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <Button
+                        android:id="@+id/youTubeButton"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="45dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="100dp"
+                        android:background="@drawable/ic_youtube" />
+
+                    <Button
+                        android:id="@+id/faceBookButton"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="3dp"/>
+
+                    <Button
+                        android:id="@+id/twitterButton"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="45dp"
+                        android:layout_height="47dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="2dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
-
         </LinearLayout>
+
     </ScrollView>
 
 
